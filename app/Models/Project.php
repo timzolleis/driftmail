@@ -25,7 +25,10 @@ class Project extends Model
         'avatar_url' => 'boolean',
     ];
 
-
+    public function config(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(ProjectConfiguration::class);
+    }
 
 
 }

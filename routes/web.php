@@ -18,6 +18,7 @@ Route::get('/', [\App\Http\Controllers\IndexController::class, 'index'])->middle
 
 Route::prefix('project')->group(function (){
     Route::get('/new', [\App\Http\Controllers\ProjectController::class, 'create']);
+    Route::post('/new', [\App\Http\Controllers\ProjectController::class, 'handleCreate']);
 });
 
 

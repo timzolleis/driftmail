@@ -1,7 +1,7 @@
 <template>
     <CardContainer>
         <div v-if="projects.length > 0">
-            <p>Your Projects go here</p>
+          <ProjectsTable :projects="projects" />
         </div>
         <div v-else>
             <NoProjectsComponent />
@@ -25,6 +25,7 @@ export default {
 <script setup lang="ts">
 import {Project} from "../../models/Project";
 import NoProjectsComponent from "./NoProjectsComponent.vue";
+import ProjectsTable from "../table/ProjectsTable.vue";
 const props = defineProps<{projects?: Project[]}>()
 </script>
 
