@@ -1,3 +1,3 @@
-<div>
+<pre>
     {{ $body}}
-</div>
+</pre>
