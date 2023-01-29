@@ -1,3 +1,1 @@
-<pre>
-    {{ $body}}
-</pre>
+{{$body}}
