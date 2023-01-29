@@ -14,6 +14,7 @@ type ProjectConfiguration = {
     mail_host: string;
     mail_port: string;
     mail_user: string;
+    mail_password: string;
     mail_sending_address: string;
     mail_test_receiver?: string
 

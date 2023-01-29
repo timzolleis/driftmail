@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method static where(string $string, array|string|null $apiKey)
+ */
 class ProjectConfiguration extends Model
 
 {
@@ -33,6 +36,19 @@ class ProjectConfiguration extends Model
     public function project(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public static function getValues()
+    {
+        return [
+            'apiKey',
+            'mailHost',
+            'mailPort',
+            'mailUser',
+            'mailPassword',
+            'mailSendingAddress',
+            'mailTestReceiver'
+        ];
     }
 
 

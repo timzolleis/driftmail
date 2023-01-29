@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('project_configurations', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('project_id');
+            $table->foreignUuid('project_id')->constrained('projects')->onDelete('cascade');
             $table->string('api_key');
             $table->string('mail_host');
             $table->string('mail_port');

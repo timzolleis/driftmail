@@ -1,0 +1,25 @@
+
+
+{
+    "mail": {
+        "Subject": "awdadads",
+        "type": "Invitation",
+        "text": "Hallo, {name}...",
+        "gameName": "Spiel am Mittwoch"
+    },
+    "globalVariables": {
+        "gameName": "Spiel am Mittwoch"
+    },
+    "recipients": [
+        {
+            "mailAddress": "Test@test.de",
+            "variables": {
+                "name": "Test"
+            }
+        }
+    ]
+
+
+
+
+}

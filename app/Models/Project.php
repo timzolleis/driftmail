@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\custom\NetlifyUser;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,6 +29,11 @@ class Project extends Model
     public function config(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(ProjectConfiguration::class);
+    }
+
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(NetlifyUser::class);
     }
 
 

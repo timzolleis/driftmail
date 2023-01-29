@@ -3,8 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
-class CreateProjectRequest extends FormRequest
+class ModifyProjectRequest extends FormRequest
 {
 
     public function authorize(): bool
@@ -16,14 +18,15 @@ class CreateProjectRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'description' => 'nullable',
             'apiKey' => 'required',
             'mailSendingAddress' => 'required',
             'mailUser' => 'required',
             'mailHost' => 'required',
             'mailPort' => 'required',
-            'mailPassword' => 'required'
+            'mailPassword' => 'required',
+            'mail_test_receiver' => 'nullable'
         ];
     }
-
 
 }

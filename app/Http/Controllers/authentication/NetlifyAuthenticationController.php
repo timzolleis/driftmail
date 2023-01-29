@@ -4,6 +4,7 @@ namespace App\Http\Controllers\authentication;
 
 use App\Exceptions\AuthenticationFailedException;
 use App\Service\NetlifyAuthenticationService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
@@ -47,8 +48,7 @@ class NetlifyAuthenticationController extends BaseController
         try {
             $authentication = $this->netlifyAuthenticationService->retrieveAccessToken($code);
             $user = $this->netlifyAuthenticationService->getUserData($authentication);
-            session()->put('user', $user);
-            session()->put('authentication', $authentication);
+            Auth::loginUsingId($user->id);
             return redirect('/');
         } catch (AuthenticationFailedException $e) {
             return redirect('/login');

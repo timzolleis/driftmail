@@ -10,9 +10,6 @@
                 <th scope="col" class="text-sm font-medium px-6 text-left">
                     Description
                 </th>
-                <th scope="col" class="text-sm font-medium  px-6 py-2 text-left">
-                    Active
-                </th>
 
             </tr>
             </thead>

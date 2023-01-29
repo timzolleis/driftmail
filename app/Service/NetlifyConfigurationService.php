@@ -12,7 +12,6 @@ class NetlifyConfigurationService
     public function fetchConfiguration()
     {
         $endpoint = $this->constructEnvEndpoint();
-        print_r($endpoint);
         $response = Http::withToken(env('NETLIFY_ACCESS_TOKEN'))->get($this->constructEnvEndpoint(), [
             'site_id' => env('NETLIFY_SITE_ID')
         ]);
