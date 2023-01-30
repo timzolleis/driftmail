@@ -13,13 +13,4 @@ class NetlifyAuthenticationProvider extends AuthenticationProvider
         $this->authClientSecret = env('NETLIFY_AUTH_CLIENT_SECRET');
     }
 
-    public function getAccessToken(string $code)
-    {
-        // TODO: Implement getAccessToken() method.
-    }
-    public function getAuthorizationCode()
-    {
-        // TODO: Implement getAuthorizationCode() method.
-    }
-
 }

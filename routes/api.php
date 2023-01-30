@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::prefix('mail')->group(function () {
-    Route::post('/send', [\App\Http\Controllers\api\MailController::class, 'send'])->middleware('auth.api');
-    Route::get('/test', [\App\Http\Controllers\api\MailController::class, 'send'])->middleware('auth.api');
+    Route::post('/send', [\App\Http\Controllers\api\MailController::class, 'send']);
+    Route::get('/test', [\App\Http\Controllers\api\MailController::class, 'send']);
     Route::get('/status/{id}', [\App\Http\Controllers\api\MailController::class, 'getStatus']);
-});
+})->middleware('auth.api');
 
 

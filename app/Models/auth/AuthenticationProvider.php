@@ -10,7 +10,5 @@ abstract class AuthenticationProvider
     public string $authClientId;
     public string $authClientSecret;
 
-    public abstract function getAuthorizationCode();
-    public abstract function getAccessToken(string $code);
 
 }

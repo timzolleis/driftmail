@@ -23,7 +23,6 @@ class NetlifyAuthenticationService
             'client_secret' => $configuration->getClientSecret(),
             'redirect_uri' => $configuration->getRedirectUri()]);
 
-
         $response->onError(/**
          * @throws AuthenticationFailedException
          */ function (Response $response) {
