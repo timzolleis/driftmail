@@ -11,14 +11,14 @@ Projects are used to differentiate between applications or mail sending provider
 ### Variables
 Variables are a way to inject dynamic content generated in your application to your predefined mail templates, so you do not have to generate the mail text in your application. You can either specify **local** or **global** variables
 #### Local variables
-- Local variables are tied to the **variables** field on a recipient (see *Example Request*) which makes them perfect for providing user-specific details such as names, links, codes etc. when sending to multiple users at once
+Local variables are tied to the **variables** field on a recipient (see *Example Request*) which makes them perfect for providing user-specific details such as names, links, codes etc. when sending to multiple users at once
 #### Global variables
-- Global variables are tied to the **variables** field on the **mail** object. Since they are not user-specific and the same for all recipients, they are perfect for specifying general dynamic data, such as an event location or maybe a date. 
+Global variables are tied to the **variables** field on the **mail** object. Since they are not user-specific and the same for all recipients, they are perfect for specifying general dynamic data, such as an event location or maybe a date. 
 To use variables, you need to configure a variable by key and value in the variables field and specify its scope
 #### Key
-- The  key is the value in curly braces (e.g {{name}}) that is parsed in the text. Insert the variable keys in the template text to use them
+The  key is the value in curly braces (e.g {{name}}) that is parsed in the text. Insert the variable keys in the template text to use them
 #### Value
-- The value is the „path“ to look for on the **request variable object**. You can use dot annotation to specify paths in a JSON Object (for example user.name) or just the key if its a field in the **variables** object
+The value is the „path“ to look for on the **request variable object**. You can use dot annotation to specify paths in a JSON Object (for example user.name) or just the key if its a field in the **variables** object
 
 Please keep in mind that you can use variables aswell when manually overriding the subject or the mail body in the request (see *Template override*) - so there is no need for you to create a variable parsing system yourself.
 
