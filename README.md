@@ -27,8 +27,8 @@ Mail templates are a way to pre-specify the mail subject or/and mail body, so yo
 
 ## Usage
 To use the Mailservice in your application, all you need to do is to fetch two endpoints after you‘ve setup your project. 
-1. mailservice.zolleis.net/api/mail/send to send the mail
-2. mailservice.zolleis.net/api/mail/status/{requestId} to check the status of your previously made request.
+1. yourservice.com/api/mail/send to send the mail
+2. yourservice.com/api/mail/status/{requestId} to check the status of your previously made request.
 
 ### Sending an email
 To send an email, you can either use the **nodejs** client or use an http client of your choice. However, you need to provide the API-Key and an **email object** for the server to parse.
@@ -41,22 +41,29 @@ In the **recipients** field, which is effectively (at minimum) an array of objec
 ### Example:
 ```json
 {
-	mail: {
-		template: ”Invitation”,
-		variables: {
-			event: {
-				name: “My special event
-			}
-		},
-	},
-	recipients: [
-		{
-		mailaddress: “example@test.com”,
-		variables: {
-			Name: “Example name” 
-			}
-		}
-	]
+    "mail": {
+        "template": "My Template"
+
+    },
+    "variables": {
+        "event": {
+            "date": "01/23/22",
+            "name": "My fancy event!",
+            "location": "New York"
+        }
+    },
+    "recipients": [
+        {
+            "mailAddress": "test@test.de",
+            "variables": {
+                "name": "John Doe",
+               "attachments": {
+                   "link": "https://myfancyevent.com/invite/13293812"
+               }
+            }
+        }
+         
+    ]
 }
 ```
 
