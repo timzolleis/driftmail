@@ -5,7 +5,7 @@ In order to use Mailservice in your projects, you’ll need to login and create 
 - Netlify
 - Github
 After successfully logging in, you have the ability to create projects, templates and variables
-#### Projects
+### Projects
 Projects are used to differentiate between applications or mail sending providers, effectively requiring a unique API-Key to be sent with the request. Whilst the mail provider configuration (e.g SMTP) and the API-Key are tied to a project, you can use templates and variables with each project that you have created.
 
 ### Variables
