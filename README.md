@@ -56,7 +56,7 @@ In the **recipients** field, which is effectively (at minimum) an array of objec
         {
             "mailAddress": "test@test.de",
             "variables": {
-                "name": "John Doe",
+               "name": "John Doe",
                "attachments": {
                    "link": "https://myfancyevent.com/invite/13293812"
                }
