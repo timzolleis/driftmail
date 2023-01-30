@@ -5,13 +5,11 @@
 </template>
 
 <script>
-import NavBar from "../Nav/NavBar.vue";
 import DefaultLayout from "./DefaultLayout.vue";
-import SideBar from "../Nav/SideBar.vue";
 
 export default {
     name: "AuthenticatedLayout",
-    components: {SideBar, DefaultLayout, NavBar}
+    components: {DefaultLayout}
 }
 </script>
 

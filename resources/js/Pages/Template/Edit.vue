@@ -20,13 +20,12 @@
             </main>
             <section class="w-full flex justify-end mt-3">
                 <div class="flex gap-2 items-center">
-                    <button type="button" @click="router.delete(`/template/${template.id}`)"
-                            class="px-5 py-2 rounded ring ring-1 ring-red-500 font-inter text-red-500">Delete
-                    </button>
-                    <button type="submit" class="px-5 py-2 rounded bg-black font-inter text-white">Save</button>
-                    <button type="button" @click="router.get('/')"
-                            class="px-5 py-2 rounded ring ring-1 ring-black font-inter">Cancel
-                    </button>
+                    <BlackButton  button-text="Delete" type="button" @click="router.delete(`/template/${template.id}`)"
+                            class="bg-white border-red-500 font-inter text-red-500">Delete
+                    </BlackButton>
+                    <BlackButton button-text="Save" type="submit"></BlackButton>
+                    <BlackButton class="bg-white text-black" button-text="Cancel" type="button" @click="router.get('/')">
+                    </BlackButton>
                 </div>
             </section>
         </form>
@@ -53,6 +52,7 @@ import TextArea from "../../components/form/TextArea.vue";
 import CheckBox from "../../components/form/CheckBox.vue";
 import {Variable} from "../../models/Variable";
 import {Template} from "../../models/Template";
+import BlackButton from "../../components/common/BlackButton.vue";
 
 const props = defineProps<{
     template: Template

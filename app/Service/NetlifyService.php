@@ -4,11 +4,12 @@ namespace App\Service;
 
 use App\Exceptions\AuthenticationFailedException;
 use App\Models\auth\GithubAuthenticationProvider;
+use App\Models\auth\NetlifyAuthenticationProvider;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\HttpKernel\HttpCache\HttpCache;
 
-class GithubService implements AuthenticationServiceProvider
+class NetlifyService implements AuthenticationServiceProvider
 {
     public string $baseUrl;
 
@@ -19,14 +20,14 @@ class GithubService implements AuthenticationServiceProvider
      */
     public function __construct(AuthenticationService $authenticationService)
     {
-        $this->baseUrl = env('GITHUB_BASE_URL');
+        $this->baseUrl = env('NETLIFY_BASE_URL');
         $this->authenticationService = $authenticationService;
     }
 
     public function authorize(): \Symfony\Component\HttpFoundation\Response
     {
-        session()->put('auth', 'github');
-        $provider = new GithubAuthenticationProvider();
+        session()->put('auth', 'netlify');
+        $provider = new NetlifyAuthenticationProvider();
         return $this->authenticationService->getAuthorizationCode($provider);
     }
 
@@ -35,7 +36,7 @@ class GithubService implements AuthenticationServiceProvider
      */
     public function getUser(string $code)
     {
-        $provider = new GithubAuthenticationProvider();
+        $provider = new NetlifyAuthenticationProvider();
         $tokenResponse = $this->authenticationService->getAccessToken($provider, $code);
         $accessToken = $tokenResponse['access_token'];
         $userInfo = $this->get('/user', $accessToken);
@@ -44,7 +45,7 @@ class GithubService implements AuthenticationServiceProvider
         }
         return User::create([
             'id' => $userInfo['id'],
-            'display' => $userInfo['login'],
+            'display' => $userInfo['email'],
             'avatar_url' => $userInfo['avatar_url']
         ]);
     }

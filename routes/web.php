@@ -48,9 +48,8 @@ Route::prefix('template')->group(function () {
 })->middleware('auth');
 
 
-Route::get('/login', [\App\Http\Controllers\authentication\NetlifyAuthenticationController::class, 'index']);
-Route::post('/login', [\App\Http\Controllers\authentication\NetlifyAuthenticationController::class, 'redirectToNetlify']);
-Route::get('/callback', [\App\Http\Controllers\authentication\NetlifyAuthenticationController::class, 'callBack']);
+Route::get('/login', [\App\Http\Controllers\authentication\AuthenticationController::class, 'index']);
+Route::get('/logout', [\App\Http\Controllers\authentication\AuthenticationController::class, 'logout']);
 
 
 Route::prefix('oauth')->group(function () {

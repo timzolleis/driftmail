@@ -1,13 +1,20 @@
 <template>
-    <nav class="flex justify-between w-full bg-black p-3">
-        <div>
-            <p class="text-white font-inter text-headline-small">mail-api</p>
+    <nav class="w-full flex items-center gap-2 font-inter text-label-medium font-medium border-b py-1">
+        <div class="px-3 py-2 hover:bg-gray-400/20 rounded">
+            <button>Projects</button>
         </div>
-        <div>
-            <button class="bg-white rounded py-3 px-8 font-inter text-label-small text-black">Login</button>
+        <div class="px-3 py-2 hover:bg-gray-400/20 rounded">
+            <button>Variables</button>
         </div>
+        <div class="px-3 py-2 hover:bg-gray-400/20 rounded">
+            <button>Templates</button>
+        </div>
+
     </nav>
+
+
 </template>
+
 <script>
 export default {
     name: "NavBar"

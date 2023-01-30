@@ -13,6 +13,7 @@ class User extends Authenticatable
 
     protected $table = 'users';
     protected $keyType = 'string';
+    public $timestamps = false;
     /**
      * The attributes that are mass assignable.
      *
@@ -34,6 +35,21 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function projects(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Project::class);
+    }
+
+    public function variables(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Variable::class);
+    }
+
+    public function templates(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Template::class);
+    }
 
 
 }
