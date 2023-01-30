@@ -49,7 +49,7 @@ ApiMail extends Mailable
     public function content()
     {
         return new Content(
-            markdown: 'emails.default', with: [
+            view: 'emails.default', with: [
             'body' => $this->mailRequest->getBody()]
         );
     }
