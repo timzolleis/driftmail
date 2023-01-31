@@ -1,14 +1,14 @@
 <template>
-    <PageHeader title="Dashboard"/>
-    <main class="space-y-4">
+    <div class="flex py-3 justify-between border-b">
+        <PageHeader title="My Projects"/>
+        <BlackButton button-text="Add"
+                     class="rounded ring ring-1 ring-gray-600 text-white bg-black font-inter" type="button"
+                     @click="router.get('/project/new')">
+        </BlackButton>
+    </div>
+    <main class="py-4">
         <section>
             <ProjectsComponent :projects=projects></ProjectsComponent>
-        </section>
-        <section>
-            <VariablesComponent :variables="variables"></VariablesComponent>
-        </section>
-        <section>
-            <TemplatesComponent :templates="templates"></TemplatesComponent>
         </section>
     </main>
 </template>
@@ -32,7 +32,8 @@ import {Variable} from "../models/Variable";
 import TemplatesComponent from "../components/templates/TemplatesComponent.vue";
 import {Template} from "../models/Template";
 import {computed} from "@vue/reactivity";
-import {usePage} from "@inertiajs/vue3";
+import {router, usePage} from "@inertiajs/vue3";
+import BlackButton from "../components/common/BlackButton.vue";
 
 const props = defineProps<{
     projects?: Project[],

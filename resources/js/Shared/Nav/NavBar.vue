@@ -1,6 +1,6 @@
 <template>
     <nav class="w-full flex items-center gap-2 font-inter text-label-medium font-medium border-b py-1 transition ease-in-out">
-        <div class="px-3 py-1 hover:bg-gray-400/20 rounded">
+        <div class="py-1 hover:bg-gray-400/20 rounded">
             <button class="py-1" :class="isActive('/') ? 'border-b-2 border-black': ''">Dashboard</button>
         </div>
         <div class="px-3 py-1 hover:bg-gray-400/20 rounded">

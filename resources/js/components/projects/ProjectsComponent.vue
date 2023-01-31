@@ -1,20 +1,15 @@
 <template>
-    <div class="flex items-center justify-between gap-2 pb-3">
-        <h3 class="font-inter text-title-small font-medium text-gray-600">Projects</h3>
-        <BlackButton button-text="Add" v-if="projects.length > 0"
-                     class="px-3 py-1.5 rounded ring ring-1 ring-gray-600 text-white bg-black  font-inter" type="button"
-                     @click="router.get('/project/new')">
-        </BlackButton>
+    <div class="grid grid-cols-3 gap-2 font-inter ">
+        <CardContainer v-for="project in projects">
+            <div class="flex items-center justify-between">
+                <section class="space-y-1">
+                    <p class="font-medium text-title-small">{{ project.name }}</p>
+                    <p class="text-gray-600">{{ project.description }}</p>
+                </section>
+                <BlackButton button-text="View"></BlackButton>
+            </div>
+        </CardContainer>
     </div>
-            <CardContainer>
-                <div v-if="projects.length > 0">
-                    <ProjectsTable :projects="projects"/>
-                </div>
-                <div v-else>
-                    <NotPresentComponent type="Project" link="/project/new"></NotPresentComponent>
-                </div>
-
-            </CardContainer>
 
 </template>
 
