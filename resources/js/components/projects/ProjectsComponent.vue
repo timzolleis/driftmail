@@ -1,5 +1,8 @@
 <template>
-    <div class="grid grid-cols-3 gap-2 font-inter ">
+    <Modal title="Add Project">
+        <AddProjectComponent></AddProjectComponent>
+    </Modal>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2 font-inter ">
         <CardContainer v-for="project in projects">
             <div class="flex items-center justify-between">
                 <section class="space-y-1">
@@ -24,11 +27,10 @@ export default {
 
 <script setup lang="ts">
 import {Project} from "../../models/Project";
-import NoProjectsComponent from "./NoProjectsComponent.vue";
-import ProjectsTable from "../table/ProjectsTable.vue";
-import {router} from "@inertiajs/vue3";
-import NotPresentComponent from "../common/NotPresentComponent.vue";
 import BlackButton from "../common/BlackButton.vue";
+import Modal from "../common/Modal.vue";
+import Create from "../../Pages/Project/Edit.vue";
+import AddProjectComponent from "./AddProjectComponent.vue";
 
 const props = defineProps<{ projects?: Project[] }>()
 </script>
