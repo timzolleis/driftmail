@@ -38,7 +38,6 @@ class AuthenticationController
         if ($provider === 'netlify') {
             $service = new NetlifyService($this->authenticationService);
         }
-
         if ($service !== null) {
             return $service->authorize();
         }
@@ -59,7 +58,6 @@ class AuthenticationController
         if ($provider === "netlify") {
             $service = new NetlifyService($this->authenticationService);
         }
-
         if ($service !== null) {
             $user = $service->getUser($code);
             Auth::loginUsingId($user->id);

@@ -1,5 +1,9 @@
 <?php
 
+use App\Models\entities\MailConfig;
+use App\Models\ProjectConfiguration;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +20,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/mail', function () {
     $template = App\Models\Template::all()->first();
     $mailRequest = new \App\Models\entities\MailRequest($template->subject, $template->text);
+    $apiKey = env('TEST_API_KEY');
+    $projectConfig = ProjectConfiguration::where('api_key', $apiKey)->first();
+    $mailConfig = MailConfig::getFromProjectConfiguration($projectConfig);
+    Config::set('mail', $mailConfig->getConfigurationArray());
+
+    \Illuminate\Support\Facades\Mail::to('tim@zolleis.net')->send(new \App\Mail\ApiMail($mailRequest));
 
     return new App\Mail\ApiMail($mailRequest);
 });

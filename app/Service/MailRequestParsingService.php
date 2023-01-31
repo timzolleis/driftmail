@@ -22,6 +22,7 @@ class MailRequestParsingService
         $mailRequest = $this->parseGlobalVariables(new MailRequest($template->subject, $template->text), $request);
         $userMailRequests = [];
         foreach ($request->input('recipients') as $recipient) {
+            Log::debug("Parsing local variables");
             $userMailRequest = $this->parseLocalVariables($mailRequest, $recipient);
             $mailConfig = MailConfig::getFromConfigurationArray(Config::get('mail'));
             $recipientAddress = $recipient['mailAddress'];
@@ -66,8 +67,6 @@ class MailRequestParsingService
         $mailRequest->setBody($this->parseVariable($mailRequest->getBody(), $globalVariables));
         return $mailRequest;
     }
-
-
     private function parseVariable(string $textToReplace, array $replacementVariables): array|string|null
     {
         return preg_replace_callback('#{(.*?)}#', function ($match) use ($replacementVariables) {

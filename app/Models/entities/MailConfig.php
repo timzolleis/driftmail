@@ -59,6 +59,7 @@ class MailConfig
         $from = new MailSender($configuration->mail_sending_address, 'Zolleis.net');
         return new MailConfig($driver, $host, $port, $encryption, $username, $password, $from);
     }
+
     public function getConfigurationArray(): array
     {
         return [
@@ -71,7 +72,15 @@ class MailConfig
             'from' => [
                 'address' => $this->from->getAddress(),
                 'name' => $this->from->getName()
+            ],
+            'markdown' => [
+                'theme' => 'default',
+
+                'paths' => [
+                    resource_path('views/vendor/mail'),
+                ],
             ]];
+
     }
 
 
