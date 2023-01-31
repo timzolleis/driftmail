@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full flex justify-between">
+    <div class="w-full flex justify-between font-inter">
         <div class="flex gap-2 items-center">
             <img class="h-8" src="/assets/img/mail-icon.svg" alt="">
         </div>

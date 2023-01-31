@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/mail', function () {
+    $template = App\Models\Template::all()->first();
+    $mailRequest = new \App\Models\entities\MailRequest($template->subject, $template->text);
+
+    return new App\Mail\ApiMail($mailRequest);
+});
+
 
 Route::get('/', [\App\Http\Controllers\IndexController::class, 'index'])->middleware('auth');
 
