@@ -14,19 +14,25 @@
                             <TextArea label="Template text (insert variables as {variable}, e.g {name}"
                                       :use-label="true"
                                       v-model="form.text"></TextArea>
+                            <label class="font-inter text-label-medium text-gray-600">Preview</label>
+                            <CardContainer>
+                                <div class="prose-sm prose prose-a:text-blue-500" v-html="markdownValue">
+
+                                </div>
+                            </CardContainer>
                         </div>
                     </CardContainer>
                 </section>
             </main>
             <section class="w-full flex justify-end mt-3">
                 <div class="flex gap-2 items-center">
-                    <button type="button" @click="router.delete(`/template/${template.id}`)"
-                            class="px-5 py-2 rounded ring ring-1 ring-red-500 font-inter text-red-500">Delete
-                    </button>
-                    <button type="submit" class="px-5 py-2 rounded bg-black font-inter text-white">Save</button>
-                    <button type="button" @click="router.get('/')"
-                            class="px-5 py-2 rounded ring ring-1 ring-black font-inter">Cancel
-                    </button>
+                    <BlackButton button-text="Delete" type="button" @click="router.delete(`/template/${template.id}`)"
+                                 class="bg-white border-red-500 font-inter text-red-500">Delete
+                    </BlackButton>
+                    <BlackButton button-text="Save" type="submit"></BlackButton>
+                    <BlackButton class="bg-white text-black" button-text="Cancel" type="button"
+                                 @click="router.get('/')">
+                    </BlackButton>
                 </div>
             </section>
         </form>
@@ -53,16 +59,21 @@ import TextArea from "../../components/form/TextArea.vue";
 import CheckBox from "../../components/form/CheckBox.vue";
 import {Variable} from "../../models/Variable";
 import {Template} from "../../models/Template";
+import BlackButton from "../../components/common/BlackButton.vue";
+import {computed} from "@vue/reactivity";
+import {marked} from "marked";
 
 const props = defineProps<{
     template: Template
 }>()
+
 const form = useForm({
     name: props.template.name,
     subject: props.template.subject,
     text: props.template.text
 
 })
+const markdownValue = computed(() => marked(form.text))
 
 function postForm() {
     form.put(`/template/${props.template.id}`)
@@ -71,5 +82,26 @@ function postForm() {
 </script>
 
 <style scoped>
+h1 {
+    color: #000000;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 0;
+    text-align: left;
+}
+
+h2 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 0;
+    text-align: left;
+}
+
+h3 {
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 0;
+    text-align: left;
+}
 
 </style>

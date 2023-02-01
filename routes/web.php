@@ -1,5 +1,9 @@
 <?php
 
+use App\Models\entities\MailConfig;
+use App\Models\ProjectConfiguration;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,6 +16,19 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/mail', function () {
+    $template = App\Models\Template::all()->first();
+    $mailRequest = new \App\Models\entities\MailRequest($template->subject, $template->text);
+    $apiKey = env('TEST_API_KEY');
+    $projectConfig = ProjectConfiguration::where('api_key', $apiKey)->first();
+    $mailConfig = MailConfig::getFromProjectConfiguration($projectConfig);
+    Config::set('mail', $mailConfig->getConfigurationArray());
+
+    \Illuminate\Support\Facades\Mail::to('tim@zolleis.net')->send(new \App\Mail\ApiMail($mailRequest));
+
+    return new App\Mail\ApiMail($mailRequest);
+});
 
 
 Route::get('/', [\App\Http\Controllers\IndexController::class, 'index'])->middleware('auth');
@@ -48,7 +65,12 @@ Route::prefix('template')->group(function () {
 })->middleware('auth');
 
 
+Route::get('/login', [\App\Http\Controllers\authentication\AuthenticationController::class, 'index']);
+Route::get('/logout', [\App\Http\Controllers\authentication\AuthenticationController::class, 'logout']);
 
-Route::get('/login', [\App\Http\Controllers\authentication\NetlifyAuthenticationController::class, 'index']);
-Route::post('/login', [\App\Http\Controllers\authentication\NetlifyAuthenticationController::class, 'redirectToNetlify']);
-Route::get('/callback', [\App\Http\Controllers\authentication\NetlifyAuthenticationController::class, 'callBack']);
+
+Route::prefix('oauth')->group(function () {
+    Route::get('/login', [\App\Http\Controllers\authentication\AuthenticationController::class, 'authorize']);
+    Route::get('/callback', [\App\Http\Controllers\authentication\AuthenticationController::class, 'callback']);
+});
+

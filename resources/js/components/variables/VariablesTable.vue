@@ -29,16 +29,16 @@
                 </td>
                 <td class="text-sm text-gray-900  px-6 py-4 whitespace-nowrap">
                    <div class="flex">
-                      <div v-if="variable.is_global === '1'" class="rounded-full bg-red-500/20 font-inter text-red-500 text-center py-1 px-3">
+                      <div v-if="variable.is_global === '1'" class="text-fuchsia-500 flex items-center justify-center space-x-2 rounded-full border border-fuchsia-300 bg-white py-2 px-5 shadow-lg transition-all hover:border-fuchsia-800">
                           Global
                       </div>
-                       <div v-else class="rounded-full bg-green-500/20 font-inter text-green-500 text-center py-1 px-3">
+                       <div v-else class="text-violet-500 flex items-center justify-center space-x-2 rounded-full border border-violet-300 bg-white py-2 px-5 shadow-lg transition-all hover:border-violet-800">
                            Local
                        </div>
                    </div>
                 </td>
                 <td class="text-sm text-gray-900 px-6 py-4 whitespace-nowrap text-right">
-                    <button @click="router.get(`/variable/${variable.id}`)" class="px-5 py-2 bg-black text-white rounded text-label-medium">Edit</button>
+                   <BlackButton button-text="Edit" @click="router.get(`/variable/${variable.id}`)"></BlackButton>
                 </td>
             </tr>
             </tbody>
@@ -50,6 +50,7 @@
 
 import {router} from "@inertiajs/vue3";
 import {Variable} from "../../models/Variable";
+import BlackButton from "../common/BlackButton.vue";
 
 const props = defineProps<{
     variables: Variable[];

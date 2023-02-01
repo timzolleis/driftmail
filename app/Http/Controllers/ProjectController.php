@@ -6,7 +6,6 @@ use App\ArrayHelper;
 use App\Http\Requests\ModifyProjectRequest;
 use App\Models\Project;
 use App\Models\ProjectConfiguration;
-use App\Service\FormService;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
@@ -20,16 +19,6 @@ use Psr\Container\NotFoundExceptionInterface;
 
 class ProjectController extends BaseController
 {
-
-    protected FormService $formService;
-
-    /**
-     * @param FormService $formService
-     */
-    public function __construct(FormService $formService)
-    {
-        $this->formService = $formService;
-    }
 
 
     public function index(): \Inertia\Response

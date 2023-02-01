@@ -5,7 +5,6 @@ namespace App\Http\Controllers\api;
 use App\Jobs\ScheduledEmail;
 use App\Models\MailQueue;
 use App\Service\MailRequestParsingService;
-use App\Service\NetlifyConfigurationService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Request;
@@ -17,12 +16,10 @@ class MailController extends BaseController
 {
     use DispatchesJobs;
 
-    protected NetlifyConfigurationService $netlifyConfigurationService;
     protected MailRequestParsingService $mailRequestParsingService;
 
-    public function __construct(NetlifyConfigurationService $netlifyConfigurationService, MailRequestParsingService $mailRequestParsingService)
+    public function __construct(MailRequestParsingService $mailRequestParsingService)
     {
-        $this->netlifyConfigurationService = $netlifyConfigurationService;
         $this->mailRequestParsingService = $mailRequestParsingService;
     }
 

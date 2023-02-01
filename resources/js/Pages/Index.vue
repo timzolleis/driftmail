@@ -31,6 +31,8 @@ import VariablesComponent from "../components/variables/VariablesComponent.vue";
 import {Variable} from "../models/Variable";
 import TemplatesComponent from "../components/templates/TemplatesComponent.vue";
 import {Template} from "../models/Template";
+import {computed} from "@vue/reactivity";
+import {usePage} from "@inertiajs/vue3";
 
 const props = defineProps<{
     projects?: Project[],

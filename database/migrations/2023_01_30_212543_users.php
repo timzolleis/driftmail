@@ -12,12 +12,13 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('netlify_users', function (Blueprint $table) {
+
+        Schema::create('users', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('email');
+            $table->string('display');
             $table->string('avatar_url');
+            $table->string('password')->nullable();
         });
-        //
     }
 
     /**
@@ -27,6 +28,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('netlify_users');
+        Schema::dropIfExists('users');
     }
 };

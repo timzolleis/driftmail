@@ -11,15 +11,19 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    protected $table = 'users';
+    protected $keyType = 'string';
+    public $timestamps = false;
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'id',
+        'display',
+        'avatar_url',
+        'password'
     ];
 
     /**
@@ -32,12 +36,20 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function projects(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Project::class);
+    }
+
+    public function variables(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Variable::class);
+    }
+
+    public function templates(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Template::class);
+    }
+
+
 }

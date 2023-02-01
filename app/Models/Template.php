@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\custom\NetlifyUser;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,7 +27,7 @@ class Template extends Model
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(NetlifyUser::class);
+        return $this->belongsTo(User::class);
     }
 
 
