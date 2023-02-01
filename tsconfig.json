@@ -2,7 +2,7 @@
     "include": ["**/*.vue", "**/*.ts"],
     "compilerOptions": {
         "lib": ["DOM", "DOM.Iterable", "ES2019"],
-        "types": ["vitest/globals"],
+        "types": ["vitest/globals", "unplugin-vue-define-options/macros-global"],
         "isolatedModules": true,
         "esModuleInterop": true,
         "module": "CommonJS",

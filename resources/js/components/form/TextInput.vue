@@ -18,7 +18,6 @@ const props = defineProps<{
     placeholder?: string
 }>()
 
-console.log(props.errorMessage)
 const emits = defineEmits(["update:modelValue"])
 
 </script>

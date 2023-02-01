@@ -2,9 +2,6 @@ export type Project = {
     id: string;
     name: string;
     description: string;
-    active: number;
-    config: ProjectConfiguration
-
 }
 
 type ProjectConfiguration = {

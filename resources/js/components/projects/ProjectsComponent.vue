@@ -19,7 +19,7 @@
                     <p class="font-medium text-title-small">{{ project.name }}</p>
                     <p class="text-gray-600">{{ project.description }}</p>
                 </section>
-                <DefaultButton button-text="View"></DefaultButton>
+                <DefaultButton @click="router.get(`/project/${project.id}`)" button-text="View"></DefaultButton>
             </div>
         </CardContainer>
     </div>

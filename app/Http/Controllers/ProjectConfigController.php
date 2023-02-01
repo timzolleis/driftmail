@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ArrayHelper;
 use App\Http\Requests\CreateProjectRequest;
+use App\Http\Requests\EditProjectRequest;
 use App\Http\Requests\ModifyProjectRequest;
 use App\Models\Project;
 use App\Models\ProjectConfiguration;
@@ -18,15 +19,15 @@ use Inertia\Inertia;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-class ProjectController extends BaseController
+class ProjectConfigController extends BaseController
 {
 
 
-    public function index(Project $project): \Inertia\Response
+    public function index(): \Inertia\Response
     {
 
-        return Inertia::render('Project/Index', [
-          'project' => $project
+        return Inertia::render('Index', [
+            'projects' => Project::all()
         ]);
     }
 
@@ -41,7 +42,7 @@ class ProjectController extends BaseController
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function handleCreate(CreateProjectRequest $request)
+    public function handleCreate(CreateProjectRequest $request): \Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
     {
         Auth::user()->projects()->create($request->validated());
         return redirect('/');
@@ -55,20 +56,15 @@ class ProjectController extends BaseController
         ]);
     }
 
-    public function handleEdit(ModifyProjectRequest $request, $id): \Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
+    public function handleEdit(Project $project, EditProjectRequest $request): \Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
     {
-        $validated = $request->validated();
-        $projectValues = $request->safe()->only(['name', 'description']);
-        $configurationValues = $request->safe()->only(ProjectConfiguration::getValues());
-        $project = Project::find($id);
-        $project->update($projectValues);
-        $project->config()->update(ArrayHelper::convertKeysToSnakeCase($configurationValues));
+        $project->update($request->validated());
         return redirect('/');
     }
 
-    public function delete($id): \Illuminate\Http\RedirectResponse
+    public function delete(Project $project): \Illuminate\Http\RedirectResponse
     {
-        Project::destroy($id);
+        $project->delete();
         return redirect('/');
     }
 

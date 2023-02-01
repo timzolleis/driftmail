@@ -17,52 +17,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/mail', function () {
-    $template = App\Models\Template::all()->first();
-    $mailRequest = new \App\Models\entities\MailRequest($template->subject, $template->text);
-    $apiKey = env('TEST_API_KEY');
-    $projectConfig = ProjectConfiguration::where('api_key', $apiKey)->first();
-    $mailConfig = MailConfig::getFromProjectConfiguration($projectConfig);
-    Config::set('mail', $mailConfig->getConfigurationArray());
-
-    \Illuminate\Support\Facades\Mail::to('tim@zolleis.net')->send(new \App\Mail\ApiMail($mailRequest));
-
-    return new App\Mail\ApiMail($mailRequest);
-});
-
-
 Route::get('/', [\App\Http\Controllers\IndexController::class, 'index'])->middleware('auth');
 
-Route::prefix('project')->group(function () {
-    Route::get('/new', [\App\Http\Controllers\ProjectController::class, 'create']);
-    Route::post('/new', [\App\Http\Controllers\ProjectController::class, 'handleCreate']);
+Route::prefix('project')->as('project:')->middleware('auth')->group(
+    base_path('routes/project.php')
+);
 
-    Route::get('/{id}/edit', [\App\Http\Controllers\ProjectController::class, 'edit']);
-    Route::put('/{id}/edit', [\App\Http\Controllers\ProjectController::class, 'handleEdit']);
-    Route::delete('/{id}/edit', [\App\Http\Controllers\ProjectController::class, 'delete']);
-
-})->middleware('auth');
-
-Route::prefix('variable')->group(function () {
-    Route::get('/new', [\App\Http\Controllers\VariableController::class, 'create']);
-    Route::post('/new', [\App\Http\Controllers\VariableController::class, 'store']);
-
-    Route::get('/{id}', [\App\Http\Controllers\VariableController::class, 'edit']);
-    Route::put('/{id}', [\App\Http\Controllers\VariableController::class, 'update']);
-    Route::delete('/{id}', [\App\Http\Controllers\VariableController::class, 'delete']);
-
-
-})->middleware('auth');
-
-Route::prefix('template')->group(function () {
-    Route::get('/new', [\App\Http\Controllers\TemplateController::class, 'create']);
-    Route::post('/new', [\App\Http\Controllers\TemplateController::class, 'store']);
-
-    Route::get('/{template}', [\App\Http\Controllers\TemplateController::class, 'edit']);
-    Route::put('/{template}', [\App\Http\Controllers\TemplateController::class, 'update']);
-    Route::delete('/{template}', [\App\Http\Controllers\TemplateController::class, 'delete']);
-
-})->middleware('auth');
+Route::prefix('project/{project}')->as('project:variable')->middleware('auth')->group(
+    [
+        base_path('routes/variable.php'),
+        base_path('routes/template.php')
+    ]
+);
 
 
 Route::get('/login', [\App\Http\Controllers\authentication\AuthenticationController::class, 'index']);

@@ -14,6 +14,10 @@ use Inertia\Inertia;
 class VariableController extends BaseController
 {
 
+    public function index(){
+        return Inertia::render('Variables/Index');
+    }
+
     public function create(): \Inertia\Response
     {
         return Inertia::render('Variables/Create');
