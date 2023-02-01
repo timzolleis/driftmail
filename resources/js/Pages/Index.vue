@@ -1,16 +1,5 @@
 <template>
-    <div class="flex py-3 justify-between border-b">
-        <PageHeader title="My Projects"/>
-        <BlackButton button-text="Add"
-                     class="rounded ring ring-1 ring-gray-600 text-white bg-black font-inter" type="button"
-                     @click="router.get('/project/new')">
-        </BlackButton>
-    </div>
-    <main class="py-4">
-        <section>
-            <ProjectsComponent :projects=projects></ProjectsComponent>
-        </section>
-    </main>
+    <ProjectsComponent :projects=projects></ProjectsComponent>
 </template>
 
 <script lang="ts">
@@ -36,9 +25,7 @@ import {router, usePage} from "@inertiajs/vue3";
 import BlackButton from "../components/common/BlackButton.vue";
 
 const props = defineProps<{
-    projects?: Project[],
-    variables?: Variable[],
-    templates?: Template[]
+    projects?: Project[]
 }>()
 </script>
 

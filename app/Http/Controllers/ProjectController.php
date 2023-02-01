@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ArrayHelper;
+use App\Http\Requests\CreateProjectRequest;
 use App\Http\Requests\ModifyProjectRequest;
 use App\Models\Project;
 use App\Models\ProjectConfiguration;
@@ -40,12 +41,9 @@ class ProjectController extends BaseController
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function handleCreate(ModifyProjectRequest $request)
+    public function handleCreate(CreateProjectRequest $request)
     {
-        $request->validated();
-        $projectValues = $request->safe()->only(['name', 'description']);
-        $configurationValues = ArrayHelper::convertKeysToSnakeCase($request->safe()->only(ProjectConfiguration::getValues()));
-        Auth::user()->projects()->create($projectValues)->config()->create($configurationValues);
+        Auth::user()->projects()->create($request->validated());
         return redirect('/');
     }
 

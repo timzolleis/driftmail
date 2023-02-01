@@ -100,7 +100,6 @@ const form = useForm({
     mailPassword: "",
     mailTestReceiver: ""
 })
-console.log(form.errors)
 
 function postForm() {
     form.post('/project/new')

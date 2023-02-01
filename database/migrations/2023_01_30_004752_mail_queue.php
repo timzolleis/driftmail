@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -13,16 +12,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('project_configurations', function (Blueprint $table) {
+        Schema::create('mail_queue', function (Blueprint $table) {
             $table->uuid('id')->primary();
+        });
+
+        Schema::table('mail_queue', function (Blueprint $table){
+            $table->integer('job_id');
             $table->foreignUuid('project_id')->constrained('projects')->onDelete('cascade');
-            $table->string('api_key');
-            $table->string('mail_host');
-            $table->string('mail_port');
-            $table->string('mail_user');
-            $table->string('mail_password');
-            $table->string('mail_sending_address');
-            $table->string('mail_test_receiver')->nullable();
+            $table->string('request_id');
+            $table->string('mail_address');
+            $table->string('status');
         });
     }
 
@@ -33,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('project_configurations');
+        Schema::dropIfExists('mail_queue');
     }
 };

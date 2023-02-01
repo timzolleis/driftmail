@@ -13,12 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('templates', function (Blueprint $table) {
+        Schema::create('variables', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade');
-            $table->string('name');
-            $table->string('subject');
-            $table->longText('text');
+
+        });
+
+        Schema::table('variables', function (Blueprint $table) {
+            $table->foreignUuid('project_id')->constrained('projects')->onDelete('cascade');
+            $table->string('key');
+            $table->string('value');
+            $table->rename('scope');
+            $table->string('description')->nullable();
         });
     }
 
@@ -29,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('templates');
+        Schema::dropIfExists('variables');
     }
 };

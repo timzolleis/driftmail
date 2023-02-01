@@ -13,14 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('projects', function (Blueprint $table) {
+        Schema::create('templates', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade');
-            $table->string('name');
-            $table->string('description');
         });
 
-
+        Schema::table('templates', function (Blueprint $table) {
+            $table->foreignUuid('project_id')->constrained('projects')->onDelete('cascade');
+            $table->string('name');
+            $table->string('subject');
+            $table->longText('text');
+        });
     }
 
     /**
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('projects');
+        Schema::dropIfExists('templates');
     }
 };
