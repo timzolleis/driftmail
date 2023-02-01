@@ -1,66 +1,70 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
 
-## About Laravel
+## Preparation
+In order to use Mailservice in your projects, you’ll need to login and create a project first. The following login providers are available
+- Netlify
+- Github
+After successfully logging in, you have the ability to create projects, templates and variables
+### Projects
+Projects are used to differentiate between applications or mail sending providers, effectively requiring a unique API-Key to be sent with the request. Whilst the mail provider configuration (e.g SMTP) and the API-Key are tied to a project, you can use templates and variables with each project that you have created.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Variables
+Variables are a way to inject dynamic content generated in your application to your predefined mail templates, so you do not have to generate the mail text in your application. You can either specify **local** or **global** variables
+#### Local variables
+Local variables are tied to the **variables** field on a recipient (see *Example Request*) which makes them perfect for providing user-specific details such as names, links, codes etc. when sending to multiple users at once
+#### Global variables
+Global variables are tied to the **variables** field on the **mail** object. Since they are not user-specific and the same for all recipients, they are perfect for specifying general dynamic data, such as an event location or maybe a date. 
+To use variables, you need to configure a variable by key and value in the variables field and specify its scope
+#### Key
+The  key is the value in curly braces (e.g {{name}}) that is parsed in the text. Insert the variable keys in the template text to use them
+#### Value
+The value is the „path“ to look for on the **request variable object**. You can use dot annotation to specify paths in a JSON Object (for example user.name) or just the key if its a field in the **variables** object
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Please keep in mind that you can use variables aswell when manually overriding the subject or the mail body in the request (see *Template override*) - so there is no need for you to create a variable parsing system yourself.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Templates
+Mail templates are a way to pre-specify the mail subject or/and mail body, so you do not have to store and generate the mail content on your system. To create a template specify its name (e.g. „Event invitation“), provide a subject and a body and save it. Please keep in mind that the name when providing a template is **not case-sensitive**.
 
-## Learning Laravel
+## Usage
+To use the Mailservice in your application, all you need to do is to fetch two endpoints after you‘ve setup your project. 
+1. yourservice.com/api/mail/send to send the mail
+2. yourservice.com/api/mail/status/{requestId} to check the status of your previously made request.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Sending an email
+To send an email, you can either use the **nodejs** client or use an http client of your choice. However, you need to provide the API-Key and an **email object** for the server to parse.
+To provide an API-Key, you’ll need to include the API-key you set in your project as the “X-API-KEY” Header in your request.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### The email object
+The email object consists out of an object that has to fields: **mail** and **recipients**. In the **mail** field you can either provide a template name or/and subject and body, aswell as a **variables** field with the respective keys to variables you created in your configuration. Please keep in mind that variables that are **not configured** in your application wont be parsed
+In the **recipients** field, which is effectively (at minimum) an array of objects that contain an email address, you can specify who to send the email to. Here you can aswell introduce local variables, for example as username that should be replaced in the mail subject /text
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Example:
+```json
+{
+    "mail": {
+        "template": "My Template"
 
-## Laravel Sponsors
+    },
+    "variables": {
+        "event": {
+            "date": "01/23/22",
+            "name": "My fancy event!",
+            "location": "New York"
+        }
+    },
+    "recipients": [
+        {
+            "mailAddress": "test@test.de",
+            "variables": {
+               "name": "John Doe",
+               "attachments": {
+                   "link": "https://myfancyevent.com/invite/13293812"
+               }
+            }
+        }
+         
+    ]
+}
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Checking the email status
