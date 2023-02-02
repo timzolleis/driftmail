@@ -25,11 +25,10 @@
             v-model="form.scope"
             :scopes="scopes"
         ></SelectVariableScopeComponent>
-
         <BlackButton
             @click="postForm"
             class="w-full mt-5 py-3"
-            button-text="Add Variable"
+            button-text="Save Variable"
         ></BlackButton>
     </section>
 </template>
@@ -42,18 +41,22 @@ import TextArea from "../form/TextArea.vue";
 import SelectVariableScopeComponent from "./SelectVariableScopeComponent.vue";
 import { Project } from "../../models/Project";
 import { scopes } from "../../config/props";
+import { Variable } from "../../models/Variable";
+
 const props = defineProps<{
     project: Project;
+    variable: Variable;
 }>();
 const form = useForm({
-    key: "",
-    value: "",
-    description: "",
-    scope: scopes[0],
+    key: props.variable.key,
+    value: props.variable.value,
+    description: props.variable.description,
+    scope: scopes.find((scope) => scope.value === props.variable.scope),
 });
 const emit = defineEmits(["success"]);
+
 function postForm() {
-    form.post(`/project/${props.project.id}/variable/new`, {
+    form.put(`/project/${props.project.id}/variable/${props.variable.id}`, {
         onSuccess: () => emit("success"),
     });
 }

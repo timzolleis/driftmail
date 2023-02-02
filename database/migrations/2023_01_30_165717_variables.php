@@ -15,14 +15,10 @@ return new class extends Migration
     {
         Schema::create('variables', function (Blueprint $table) {
             $table->uuid('id')->primary();
-
-        });
-
-        Schema::table('variables', function (Blueprint $table) {
             $table->foreignUuid('project_id')->constrained('projects')->onDelete('cascade');
             $table->string('key');
             $table->string('value');
-            $table->rename('scope');
+            $table->string('scope');
             $table->string('description')->nullable();
         });
     }

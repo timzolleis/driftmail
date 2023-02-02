@@ -3,5 +3,5 @@ export type Variable = {
     key: string;
     value: string;
     description?: string;
-    is_global: string
-}
+    scope: string;
+};

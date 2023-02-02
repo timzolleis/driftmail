@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class VariableRequest extends FormRequest
+class EditVariableRequest extends FormRequest
 {
 
     public function authorize(): bool
@@ -15,7 +15,7 @@ class VariableRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'key' => 'required | unique:variables',
+            'key' => "required | unique:variables,key," .$this->variable->id,
             'value' => 'required',
             'description' => 'nullable',
             'scope' => 'required'
