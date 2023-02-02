@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
-class ModifyProjectRequest extends FormRequest
+class UpdateProjectRequest extends FormRequest
 {
 
     public function authorize(): bool

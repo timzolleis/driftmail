@@ -17,6 +17,11 @@ use Inertia\Inertia;
 class TemplateController extends BaseController
 {
 
+    public function index(Project $project)
+    {
+        return Inertia::render('Template/Index');
+    }
+
     public function create(): \Inertia\Response
     {
         return Inertia::render('Template/Create');

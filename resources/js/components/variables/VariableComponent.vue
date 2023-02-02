@@ -16,7 +16,11 @@
                 :scope="scopes.find((scope) => scope.value === variable.scope)"
             ></VariableScopeComponent
         ></span>
-        <OptionsMenu @edit="showEditModal = true" :options="options">
+        <OptionsMenu
+            @edit="showEditModal = true"
+            @delete="showDeleteModal = true"
+            :options="options"
+        >
         </OptionsMenu>
         <Teleport to="body">
             <Modal
@@ -32,6 +36,13 @@
                     ></EditVariableComponent>
                 </div>
             </Modal>
+            <ConfirmationModal
+                @confirm="deleteVariable"
+                @cancel="showDeleteModal = false"
+                @close="showDeleteModal = false"
+                :confirmation-text="`Are you sure you want to delete the variable ${variable.key}?`"
+                :show-modal="showDeleteModal"
+            ></ConfirmationModal>
         </Teleport>
     </div>
 </template>
@@ -47,6 +58,8 @@ import { Project } from "../../models/Project";
 import EditVariableComponent from "./EditVariableComponent.vue";
 import VariableScopeComponent from "./scope/VariableScopeComponent.vue";
 import { scopes } from "../../config/props";
+import { router } from "@inertiajs/vue3";
+import ConfirmationModal from "../common/ConfirmationModal.vue";
 
 const props = defineProps<{
     project: Project;
@@ -54,6 +67,12 @@ const props = defineProps<{
 }>();
 
 const showEditModal = ref(false);
+const showDeleteModal = ref(false);
+
+function deleteVariable() {
+    router.delete(`/project/${props.project.id}/variable/${props.variable.id}`);
+    showDeleteModal.value = false;
+}
 
 const options: DropdownOption[] = [
     {

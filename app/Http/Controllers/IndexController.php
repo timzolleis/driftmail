@@ -13,7 +13,7 @@ class IndexController extends BaseController
     public function index(): \Inertia\Response
     {
         return Inertia::render('Index', [
-            'projects' => Auth::user()->projects()->with('config')->get()
+            'projects' => Auth::user()->projects()->get()
         ]);
     }
 

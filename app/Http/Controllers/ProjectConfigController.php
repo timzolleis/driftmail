@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\ArrayHelper;
 use App\Http\Requests\CreateProjectRequest;
 use App\Http\Requests\EditProjectRequest;
-use App\Http\Requests\ModifyProjectRequest;
+use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
 use App\Models\ProjectConfiguration;
 use GuzzleHttp\Promise\Create;

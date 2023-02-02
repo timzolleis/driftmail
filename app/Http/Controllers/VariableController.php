@@ -39,10 +39,10 @@ class VariableController extends BaseController
         return Redirect::back();
     }
 
-    public function delete(string $id): \Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
+    public function delete(Project $project, Variable $variable): \Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
     {
-        Variable::destroy($id);
-        return redirect('/');
+        $variable->delete();
+        return Redirect::back();
     }
 
 

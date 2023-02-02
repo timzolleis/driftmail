@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ArrayHelper;
 use App\Http\Requests\CreateProjectRequest;
-use App\Http\Requests\ModifyProjectRequest;
+use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
 use App\Models\ProjectConfiguration;
 use GuzzleHttp\Promise\Create;
@@ -24,46 +24,25 @@ class ProjectController extends BaseController
 
     public function index(Project $project): \Inertia\Response
     {
-
         return Inertia::render('Project/Index', [
-          'project' => $project
+            'project' => $project
         ]);
-    }
-
-
-    public function create(): \Inertia\Response
-    {
-        return Inertia::render('Project/Create');
-
     }
 
     /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function handleCreate(CreateProjectRequest $request)
+    public function store(CreateProjectRequest $request)
     {
         Auth::user()->projects()->create($request->validated());
-        return redirect('/');
+        return Redirect::back();
     }
 
-
-    public function edit(Project $project): \Inertia\Response
+    public function update(UpdateProjectRequest $request, Project $project): \Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
     {
-        return Inertia::render('Project/Edit', [
-            'project' => $project
-        ]);
-    }
-
-    public function handleEdit(ModifyProjectRequest $request, $id): \Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
-    {
-        $validated = $request->validated();
-        $projectValues = $request->safe()->only(['name', 'description']);
-        $configurationValues = $request->safe()->only(ProjectConfiguration::getValues());
-        $project = Project::find($id);
-        $project->update($projectValues);
-        $project->config()->update(ArrayHelper::convertKeysToSnakeCase($configurationValues));
-        return redirect('/');
+        $project->update($request->validated());
+        return Redirect::back();
     }
 
     public function delete($id): \Illuminate\Http\RedirectResponse

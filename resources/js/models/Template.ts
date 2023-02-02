@@ -1,8 +1,7 @@
 export type Template = {
-
     id: string;
     name: string;
+    description: string;
     subject: string;
-    text: string;
-
-}
+    body: string;
+};
