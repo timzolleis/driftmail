@@ -41,11 +41,10 @@ import CreateTemplateComponent from "../../components/templates/CreateTemplateCo
 
 defineOptions({ layout: ProjectLayout });
 
-const showCreateModal = ref(true);
+const showCreateModal = ref(false);
 const showEditModal = ref(false);
 
 const props = defineProps<{
-    project: Project;
     templates: Template[];
 }>();
 

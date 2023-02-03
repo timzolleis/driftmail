@@ -6,7 +6,7 @@
             class="backdrop-blur bg-black bg-opacity-10 p-3 fixed px-10 left-0 top-0 right-0 bottom-0 flex flex-col items-center justify-center transition-opacity duration-300 ease-in-out"
         >
             <div
-                class="modal-container rounded-xl bg-white w-full md:w-11/12 lg:w-2/3 z-100 transition-all duration-300 ease-in-out"
+                class="modal-container rounded-xl bg-white w-full md:w-11/12 lg:w-2/3 z-100 transition-all duration-300 ease-in-out overflow-scroll"
                 @click.stop=""
             >
                 <div class="flex flex-col py-5">
@@ -32,12 +32,26 @@
 </template>
 
 <script setup lang="ts">
+import { watch } from "@vue/runtime-core";
+
 const props = defineProps<{
     title: string;
     show: boolean;
 }>();
 
 const emit = defineEmits(["close"]);
+
+watch(
+    props,
+    (newValue) => {
+        if (newValue.show) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "auto";
+        }
+    },
+    { immediate: true }
+);
 </script>
 
 <style scoped>

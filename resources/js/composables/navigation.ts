@@ -1,16 +1,21 @@
 import { router } from "@inertiajs/vue3";
 
 export function useRelativeNavigation(baseUrl: string, path: string) {
+    return navigateTo(useGetRelativeUrl(baseUrl, path));
+}
+
+export function useGetRelativeUrl(baseUrl: string, path: string) {
     const windowPath = window.location.pathname;
-    const testArray = windowPath.split("/");
     const parsed = windowPath.substring(0, windowPath.lastIndexOf("/"));
     if (parsed === baseUrl) {
         const url = `${windowPath}/${trimSlashes(path)}`;
-        return router.get(removeTrailingSlash(url));
+        return removeTrailingSlash(url);
     }
-    const url = `${parsed}/${trimSlashes(path)}`;
-    console.log(trimSlashes(url));
-    return router.get(removeTrailingSlash(url));
+    return `${parsed}/${trimSlashes(path)}`;
+}
+
+function navigateTo(url: string) {
+    return router.get(url);
 }
 
 function trimSlashes(input: string) {

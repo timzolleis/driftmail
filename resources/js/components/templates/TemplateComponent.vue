@@ -38,6 +38,7 @@ import { ref } from "@vue/reactivity";
 import ConfirmationModal from "../common/ConfirmationModal.vue";
 import LargeModal from "../common/LargeModal.vue";
 import CreateTemplateComponent from "./CreateTemplateComponent.vue";
+import { useForm } from "@inertiajs/vue3";
 
 const props = defineProps<{
     template: Template;
@@ -46,6 +47,15 @@ const props = defineProps<{
 function editTemplate() {
     return useRelativeNavigation("/project", `/template/${props.template.id}`);
 }
+
+const templateForm = useForm({
+    name: "",
+    description: "",
+    subject: "",
+    body: "",
+});
+
+export type TemplateForm = typeof templateForm;
 
 const showDeleteModal = ref(false);
 const showCreateModal = ref(false);

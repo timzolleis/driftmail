@@ -12,6 +12,7 @@ use App\Models\Variable;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class TemplateController extends BaseController
@@ -19,19 +20,14 @@ class TemplateController extends BaseController
 
     public function index(Project $project)
     {
-        return Inertia::render('Template/Index');
+        return Inertia::render('Template/Index', ['templates' => $project->templates()->get()]);
     }
 
-    public function create(): \Inertia\Response
-    {
-        return Inertia::render('Template/Create');
-    }
-
-    public function store(CreateTemplateRequest $request)
+    public function store(CreateTemplateRequest $request, Project $project)
     {
         $validated = $request->validated();
-        Auth::user()->templates()->create(ArrayHelper::convertKeysToSnakeCase($validated));
-        return redirect('/');
+        $project->templates()->create($validated);
+        return Redirect::back();
     }
 
     public function edit(Template $template): \Inertia\Response

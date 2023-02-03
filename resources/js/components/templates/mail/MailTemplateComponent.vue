@@ -1,32 +1,58 @@
 <template>
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-2 overflow-scroll">
         <div class="flex flex-col gap-2">
             <TextInput
-                label="Template name"
-                :use-label="true"
-                v-model="form.name"
-                :error-message="form.errors.name"
-            ></TextInput>
-            <TextInput
+                @input="emit('update:modelValue', modelValue)"
                 label="Template subject"
                 :use-label="true"
-                v-model="form.subject"
-                :error-message="form.errors.subject"
+                v-model="modelValue.subject"
+                :error-message="modelValue.errors.subject"
             ></TextInput>
-            <TextArea
-                label="Template text (insert variables as {variable}, e.g {name}"
-                :use-label="true"
-                v-model="form.text"
-            ></TextArea>
-            <label class="font-inter text-label-medium text-gray-600"
-                >Preview</label
-            >
-            <CardContainer>
-                <div
-                    class="prose-sm prose prose-a:text-blue-500"
-                    v-html="markdownValue"
-                ></div>
-            </CardContainer>
+            <div class="flex items-center gap-1">
+                <label
+                    class="font-inter text-label-medium text-gray-600"
+                    @click="togglePreview"
+                    >Template Body</label
+                >
+                <ChevronUpIcon
+                    @click="toggleBody"
+                    :class="[
+                        'stroke-gray-600, h-4 transition-all ease-in-out duration-300',
+                        showBody ? 'rotate-180' : '',
+                    ]"
+                ></ChevronUpIcon>
+            </div>
+            <Transition name="preview">
+                <TextArea
+                    v-if="showBody"
+                    @input="emit('update:modelValue', modelValue)"
+                    label="Template text (insert variables as {variable}, e.g {name}"
+                    :use-label="false"
+                    v-model="modelValue.body"
+                ></TextArea>
+            </Transition>
+            <div class="flex items-center gap-1">
+                <label
+                    class="font-inter text-label-medium text-gray-600"
+                    @click="togglePreview"
+                    >Preview</label
+                >
+                <ChevronUpIcon
+                    @click="togglePreview"
+                    :class="[
+                        'stroke-gray-600, h-4 transition-all ease-in-out duration-300',
+                        showPreview ? 'rotate-180' : '',
+                    ]"
+                ></ChevronUpIcon>
+            </div>
+            <Transition name="preview">
+                <CardContainer v-if="showPreview">
+                    <div
+                        class="prose-sm prose prose-a:text-blue-500 transition-all ease-in-out duration-300"
+                        v-html="markdownValue"
+                    ></div>
+                </CardContainer>
+            </Transition>
         </div>
     </div>
 </template>
@@ -35,10 +61,35 @@
 import CardContainer from "../../../Shared/Layout/CardContainer.vue";
 import TextInput from "../../form/TextInput.vue";
 import TextArea from "../../form/TextArea.vue";
-import { useForm } from "@inertiajs/vue3";
+import { computed, ref } from "@vue/reactivity";
+import { marked } from "marked";
+import ChevronUpDownIcon from "../../../Shared/icons/ChevronUpDownIcon.vue";
+import ChevronUpIcon from "../../../Shared/icons/ChevronUpIcon.vue";
+import useForm from "@inertiajs/vue3/types/useForm";
+import { TemplateForm } from "../TemplateComponent.vue";
+function togglePreview() {
+    showPreview.value = !showPreview.value;
+}
 
+function toggleBody() {
+    showBody.value = !showBody.value;
+}
+
+const showPreview = ref(false);
+const showBody = ref(true);
 const props = defineProps<{
-    form: typeof useForm;
+    modelValue: TemplateForm;
 }>();
-const emit = defineEmits(["update:form"]);
+const emit = defineEmits(["update:modelValue"]);
+
+const markdownValue = computed(() => marked(props.modelValue.body));
 </script>
+<style scoped>
+.preview-enter-from {
+    opacity: 0;
+}
+
+.preview-leave-to {
+    opacity: 0;
+}
+</style>

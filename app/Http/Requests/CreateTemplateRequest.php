@@ -16,8 +16,9 @@ class CreateTemplateRequest extends FormRequest
     {
         return [
             'name' => "required | unique:templates,name",
+            'description' => 'nullable',
             'subject' => 'required',
-            'text' => 'nullable',
+            'body' => 'nullable',
         ];
     }
 
