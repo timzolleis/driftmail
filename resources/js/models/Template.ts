@@ -8,3 +8,5 @@ export type Template = {
     subject: string;
     body: string;
 };
+
+export type FormPurpose = "create" | "edit";

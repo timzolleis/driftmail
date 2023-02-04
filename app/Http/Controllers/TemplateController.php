@@ -38,18 +38,18 @@ class TemplateController extends BaseController
         ]);
     }
 
-    public function update(UpdateTemplateRequest $request, Template $template): \Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
+    public function update(UpdateTemplateRequest $request, Project $project, Template $template): \Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
     {
         $validated = $request->validated();
         $template->update($validated);
-        return redirect('/');
+        return Redirect::back();
 
     }
 
-    public function delete(Template $template): \Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
+    public function delete(Project $project, Template $template): \Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
     {
         $template->delete();
-        return redirect('/');
+        return Redirect::back();
     }
 
 

@@ -1,24 +1,25 @@
-<template></template>
+<template>
+    <TemplateFormComponent
+        v-model="form"
+        type="create"
+        @save="saveTemplate"
+    ></TemplateFormComponent>
+</template>
 
 <style scoped></style>
 <script setup lang="ts">
-import TextArea from "../form/TextArea.vue";
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
-import TextInput from "../form/TextInput.vue";
-import { useForm } from "@inertiajs/vue3";
-import { string } from "postcss-selector-parser";
-import BlackButton from "../common/BlackButton.vue";
-import MailTemplateComponent from "./mail/MailTemplateComponent.vue";
 import { useGetRelativeUrl } from "../../composables/navigation";
+import TemplateFormComponent from "./TemplateFormComponent.vue";
+import { useTemplateForm } from "../../composables/template";
+import { ref } from "@vue/reactivity";
+import { onBeforeMount } from "@vue/runtime-core";
 
-const form = useForm({
-    name: "",
-    description: "",
-    subject: "",
-    body: "",
-});
+const emit = defineEmits(["success"]);
+const form = useTemplateForm();
 
 function saveTemplate() {
-    form.post(useGetRelativeUrl("/project", "/templates"));
+    form.post(useGetRelativeUrl("/project", "/templates"), {
+        onSuccess: () => emit("success"),
+    });
 }
 </script>

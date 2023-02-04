@@ -1,7 +1,13 @@
 <template>
     <Teleport to="body">
-        <LargeModal title="Create Template" :show="showCreateModal">
-            <CreateTemplateComponent></CreateTemplateComponent>
+        <LargeModal
+            title="Create Template"
+            :show="showCreateModal"
+            @close="showCreateModal = false"
+        >
+            <CreateTemplateComponent
+                @success="showCreateModal = false"
+            ></CreateTemplateComponent>
         </LargeModal>
     </Teleport>
     <div class="flex py-3 justify-between border-b">
@@ -14,7 +20,7 @@
         >
         </BlackButton>
     </div>
-    <main class="py-3">
+    <main class="py-3 space-y-2">
         <TemplateComponent
             v-for="template in templates"
             :template="template"
@@ -49,7 +55,7 @@ const props = defineProps<{
 }>();
 
 function addTemplate() {
-    return useRelativeNavigation("/project", "/template");
+    showCreateModal.value = true;
 }
 </script>
 

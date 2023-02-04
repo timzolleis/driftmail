@@ -17,7 +17,7 @@
                 <ChevronUpIcon
                     @click="toggleBody"
                     :class="[
-                        'stroke-gray-600, h-4 transition-all ease-in-out duration-300',
+                        'stroke-gphp ray-600, h-4 transition-all ease-in-out duration-300',
                         showBody ? 'rotate-180' : '',
                     ]"
                 ></ChevronUpIcon>
@@ -63,9 +63,7 @@ import TextInput from "../../form/TextInput.vue";
 import TextArea from "../../form/TextArea.vue";
 import { computed, ref } from "@vue/reactivity";
 import { marked } from "marked";
-import ChevronUpDownIcon from "../../../Shared/icons/ChevronUpDownIcon.vue";
 import ChevronUpIcon from "../../../Shared/icons/ChevronUpIcon.vue";
-import useForm from "@inertiajs/vue3/types/useForm";
 import { TemplateForm } from "../TemplateComponent.vue";
 function togglePreview() {
     showPreview.value = !showPreview.value;

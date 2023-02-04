@@ -1,9 +1,9 @@
 <template>
     <Transition name="modal">
         <div
-            @click="emit('close')"
             v-if="show"
-            class="backdrop-blur bg-black bg-opacity-10 p-3 fixed px-10 left-0 top-0 right-0 bottom-0 flex flex-col items-center justify-center transition-opacity duration-300 ease-in-out"
+            @click="emit('close')"
+            class="backdrop-blur bg-black bg-opacity-50 p-3 fixed px-10 left-0 top-0 right-0 bottom-0 flex flex-col items-center justify-center transition-opacity duration-300 ease-in-out"
         >
             <div
                 class="modal-container rounded-xl bg-white w-full md:w-11/12 lg:w-2/3 z-100 transition-all duration-300 ease-in-out overflow-scroll"
@@ -41,6 +41,9 @@ const props = defineProps<{
 
 const emit = defineEmits(["close"]);
 
+function logTest() {
+    console.log("Close");
+}
 watch(
     props,
     (newValue) => {

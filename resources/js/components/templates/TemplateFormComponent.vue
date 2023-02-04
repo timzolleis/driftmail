@@ -41,14 +41,14 @@
                         <TextInput
                             label="Template name"
                             :use-label="true"
-                            v-model="form.name"
-                            :error-message="form.errors.name"
+                            v-model="modelValue.name"
+                            :error-message="modelValue.errors.name"
                         ></TextInput>
                         <TextArea
                             label="Template description"
                             :use-label="true"
-                            v-model="form.description"
-                            :error-message="form.errors.description"
+                            v-model="modelValue.description"
+                            :error-message="modelValue.errors.description"
                         ></TextArea>
                     </div>
                 </TabPanel>
@@ -58,14 +58,14 @@
                         'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none',
                     ]"
                 >
-                    <MailTemplateComponent
-                        v-model="form"
-                    ></MailTemplateComponent>
+                    <TemplateMailComponent v-model="form">
+                        >
+                    </TemplateMailComponent>
                 </TabPanel>
                 <div class="flex gap-2 items-center justify-end py-4">
                     <BlackButton
-                        @click="saveTemplate"
-                        button-text="Save"
+                        @click="emit('save')"
+                        :button-text="type === 'create' ? 'Add' : 'Save'"
                     ></BlackButton>
                 </div>
             </TabPanels>
@@ -80,10 +80,20 @@ import TextArea from "../form/TextArea.vue";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
 import TextInput from "../form/TextInput.vue";
 import BlackButton from "../common/BlackButton.vue";
-import MailTemplateComponent from "./mail/MailTemplateComponent.vue";
-
+import { TemplateForm } from "./TemplateComponent.vue";
+import { FormPurpose } from "../../models/Template";
+import TemplateMailComponent from "./mail/TemplateMailComponent.vue";
+import { watch } from "@vue/runtime-core";
 
 const props = defineProps<{
-    modelValue:
-}>()
+    modelValue: TemplateForm;
+    type: FormPurpose;
+}>();
+const form = props.modelValue;
+
+watch(form, (newValue) => {
+    emit("update:modelValue", newValue);
+});
+
+const emit = defineEmits(["update:modelValue", "save"]);
 </script>
