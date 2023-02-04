@@ -11,7 +11,7 @@
             </p>
         </div>
         <OptionsMenu
-            @edit="editTemplate"
+            @edit="showEditModal = true"
             @delete="showDeleteModal = true"
             :options="options"
         >
@@ -26,39 +26,48 @@
             :show-modal="showDeleteModal"
         >
         </ConfirmationModal>
+        <LargeModal title="Edit template" :show="showEditModal">
+            <EditTemplateComponent
+                :template="template"
+                @success="showEditModal = false"
+            ></EditTemplateComponent>
+        </LargeModal>
     </Teleport>
 </template>
 
 <script setup lang="ts">
 import { Template } from "../../models/Template";
-import { useRelativeNavigation } from "../../composables/navigation";
+import {
+    useGetRelativeUrl,
+    useRelativeNavigation,
+} from "../../composables/navigation";
 import OptionsMenu from "../common/OptionsMenu.vue";
 import { DropdownOption } from "../../models/Select";
 import { ref } from "@vue/reactivity";
 import ConfirmationModal from "../common/ConfirmationModal.vue";
 import LargeModal from "../common/LargeModal.vue";
 import CreateTemplateComponent from "./CreateTemplateComponent.vue";
-import { useForm } from "@inertiajs/vue3";
+import { router, useForm } from "@inertiajs/vue3";
+import EditTemplateComponent from "./EditTemplateComponent.vue";
+import Modal from "../common/Modal.vue";
 
 const props = defineProps<{
     template: Template;
 }>();
-
-function editTemplate() {
-    return useRelativeNavigation("/project", `/template/${props.template.id}`);
-}
-
 const templateForm = useForm({
     name: "",
     description: "",
     subject: "",
     body: "",
 });
-
 export type TemplateForm = typeof templateForm;
 
+function logTest() {
+    console.log("Close");
+}
+
 const showDeleteModal = ref(false);
-const showCreateModal = ref(false);
+const showEditModal = ref(false);
 const options: DropdownOption[] = [
     {
         name: "Edit",
@@ -71,5 +80,9 @@ const options: DropdownOption[] = [
     },
 ];
 
-function deleteTemplate() {}
+function deleteTemplate() {
+    return router.delete(
+        useGetRelativeUrl("/project", `/template/${props.template.id}`)
+    );
+}
 </script>
