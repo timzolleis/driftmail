@@ -16,8 +16,9 @@ class UpdateTemplateRequest extends FormRequest
     {
         return [
             'name' => "required | unique:templates,name," .$this->template->id,
+            'description' => 'nullable',
             'subject' => 'required',
-            'text' => 'nullable',
+            'body' => 'required',
         ];
     }
 
