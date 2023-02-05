@@ -19,13 +19,6 @@ class UpdateProjectRequest extends FormRequest
         return [
             'name' => 'required',
             'description' => 'nullable',
-            'apiKey' => 'required',
-            'mailSendingAddress' => 'required',
-            'mailUser' => 'required',
-            'mailHost' => 'required',
-            'mailPort' => 'required',
-            'mailPassword' => 'required',
-            'mail_test_receiver' => 'nullable'
         ];
     }
 

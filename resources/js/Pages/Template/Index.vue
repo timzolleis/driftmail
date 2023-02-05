@@ -24,7 +24,6 @@
         <TemplateComponent
             v-for="template in templates"
             :template="template"
-            :project="project"
         ></TemplateComponent>
     </main>
 </template>

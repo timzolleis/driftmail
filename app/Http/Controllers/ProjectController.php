@@ -39,7 +39,8 @@ class ProjectController extends BaseController
         return Redirect::back();
     }
 
-    public function update(UpdateProjectRequest $request, Project $project): \Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
+
+    public function update(UpdateProjectRequest $request, Project $project)
     {
         $project->update($request->validated());
         return Redirect::back();

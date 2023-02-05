@@ -39,9 +39,15 @@ class Project extends Model
     {
         return $this->hasMany(Template::class);
     }
+
     public function variables(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Variable::class);
+    }
+
+    public function settings()
+    {
+        return $this->hasOne(ProjectSettings::class);
     }
 
 

@@ -26,6 +26,7 @@ Route::prefix('project')->as('project:')->middleware('auth')->group(
 Route::prefix('project/{project}')->as('project:variable')->middleware('auth')->group(
     [
         base_path('routes/variable.php'),
+        base_path('routes/settings.php'),
         base_path('routes/template.php')
     ]
 );

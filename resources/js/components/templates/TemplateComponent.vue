@@ -36,18 +36,18 @@
 </template>
 
 <script setup lang="ts">
-import { Template } from "../../models/Template";
+import {Template} from "../../models/Template";
 import {
     useGetRelativeUrl,
     useRelativeNavigation,
 } from "../../composables/navigation";
 import OptionsMenu from "../common/OptionsMenu.vue";
-import { DropdownOption } from "../../models/Select";
-import { ref } from "@vue/reactivity";
+import {DropdownOption} from "../../models/Select";
+import {ref} from "@vue/reactivity";
 import ConfirmationModal from "../common/ConfirmationModal.vue";
 import LargeModal from "../common/LargeModal.vue";
 import CreateTemplateComponent from "./CreateTemplateComponent.vue";
-import { router, useForm } from "@inertiajs/vue3";
+import {router, useForm} from "@inertiajs/vue3";
 import EditTemplateComponent from "./EditTemplateComponent.vue";
 import Modal from "../common/Modal.vue";
 
@@ -61,10 +61,6 @@ const templateForm = useForm({
     body: "",
 });
 export type TemplateForm = typeof templateForm;
-
-function logTest() {
-    console.log("Close");
-}
 
 const showDeleteModal = ref(false);
 const showEditModal = ref(false);
@@ -81,8 +77,11 @@ const options: DropdownOption[] = [
 ];
 
 function deleteTemplate() {
-    return router.delete(
-        useGetRelativeUrl("/project", `/template/${props.template.id}`)
+    router.delete(
+        useGetRelativeUrl("/project", `/template/${props.template.id}`), {
+            onSuccess: () => showDeleteModal.value = false
+        }
     );
+
 }
 </script>

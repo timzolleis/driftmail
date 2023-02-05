@@ -30,9 +30,9 @@ import PageHeader from "../../Shared/Page/PageHeader.vue";
 import { router, useForm } from "@inertiajs/vue3";
 import BlackButton from "../../components/common/BlackButton.vue";
 import { Project } from "../../models/Project";
-import { defineOptions } from "unplugin-vue-define-options/macros";
 import ProjectLayout from "../../Shared/Layout/ProjectLayout.vue";
 import TextInput from "../../components/form/TextInput.vue";
+import {useGetRelativeUrl, useRelativeNavigation} from "../../composables/navigation";
 
 defineOptions({ layout: ProjectLayout });
 
@@ -46,7 +46,7 @@ const form = useForm({
 });
 
 function post() {
-    return form.post(window.location.pathname);
+    form.put(useGetRelativeUrl('/project', '/'));
 }
 </script>
 
