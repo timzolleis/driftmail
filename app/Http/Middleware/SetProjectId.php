@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 
-class ApiAuthentication extends Middleware
+class SetProjectId extends Middleware
 {
     /**
      * @throws ApiAuthenticationFailedException
@@ -28,12 +28,7 @@ class ApiAuthentication extends Middleware
         throw_if(!$apiKey, new ApiAuthenticationFailedException('Authorization missing', 401));
         $projectConfig = ProjectSettings::query()->where('api_key', $apiKey)->first();
         throw_if(!$projectConfig, new ApiAuthenticationFailedException('Api key did not match. Check for typos!', 400));
-        $project = Project::query()->where('id', $projectConfig->project_id)->first();
-        throw_if(!$project, new ProjectNotFoundException('There was no project matching to your provided API Key. Please revisit your configuration!', 400));
-        session()->put('project_id', $project->id);
-        Auth::loginUsingId($project->user_id);
-        $app = App::getInstance();
-        $app->register(MailServiceProvider::class);
+        $request->attributes->add(['project_id' => $projectConfig->project_id]);
         return $next($request);
     }
 }

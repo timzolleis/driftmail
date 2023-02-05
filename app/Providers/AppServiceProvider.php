@@ -30,18 +30,19 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(800);
-        Queue::before(function (JobProcessing $event) {
-            MailQueue::where('job_id', $event->job->getJobId())->first()->update([
-                'status' => 'sending'
-            ]);
-
-        });
-
-        Queue::after(function (JobProcessed $event) {
-            MailQueue::where('job_id', $event->job->getJobId())->first()->update([
-                'status' => 'sent'
-            ]);
-
-        });
+//        Queue::before(function (JobProcessing $event) {
+//            MailQueue::where('job_id', $event->job->getJobId())->first()->update([
+//                'status' => 'sending'
+//            ]);
+//
+//        });
+//
+//        Queue::after(function (JobProcessed $event) {
+//            MailQueue::where('job_id', $event->job->getJobId())->first()->update([
+//                'status' => 'sent'
+//            ]);
+//
+//        });
+//    }
     }
 }

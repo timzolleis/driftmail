@@ -49,6 +49,9 @@ class Project extends Model
     {
         return $this->hasOne(ProjectSettings::class);
     }
+    public function queue(){
+        return $this->hasMany(MailQueue::class);
+    }
 
 
 }

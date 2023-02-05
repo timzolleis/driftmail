@@ -32,7 +32,6 @@ class TemplateController extends BaseController
 
     public function edit(Template $template): \Inertia\Response
     {
-//        $template = Template::find($id);
         return Inertia::render('Template/Edit', [
             'template' => $template
         ]);

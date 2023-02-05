@@ -17,7 +17,7 @@ class ArrayHelper
         return $result;
     }
 
-    public static function getValueWithDotAnnotation(array &$array, string $path): string | null
+    public static function getValueWithDotAnnotation(array &$array, string $path): mixed
     {
         $keys = explode('.', $path);
         foreach ($keys as $key) {

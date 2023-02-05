@@ -3,6 +3,7 @@
 namespace App\Models\entities;
 
 use App\Models\ProjectConfiguration;
+use App\Models\ProjectSettings;
 use Illuminate\Support\Facades\Mail;
 
 class MailConfig
@@ -48,15 +49,15 @@ class MailConfig
         return new MailConfig($driver, $host, $port, $encryption, $username, $password, $from);
     }
 
-    public static function getFromProjectConfiguration(ProjectConfiguration $configuration)
+    public static function getFromProjectConfiguration(ProjectSettings $settings)
     {
         $driver = 'smtp';
-        $host = $configuration->mail_host;
-        $port = (int)$configuration->mail_port;
+        $host = $settings->mail_host;
+        $port = (int)$settings->mail_port;
         $encryption = 'tls';
-        $username = $configuration->mail_user;
-        $password = $configuration->mail_password;
-        $from = new MailSender($configuration->mail_sending_address, 'Zolleis.net');
+        $username = $settings->mail_user;
+        $password = $settings->mail_password;
+        $from = new MailSender($settings->mail_sending_address, $settings->mail_sending_name);
         return new MailConfig($driver, $host, $port, $encryption, $username, $password, $from);
     }
 

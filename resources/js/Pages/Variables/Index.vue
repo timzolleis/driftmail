@@ -23,7 +23,7 @@
             </div>
         </Modal>
     </div>
-    <main class="py-3">
+    <main class="space-y-1 py-3">
         <VariableComponent
             v-for="variable in variables"
             :variable="variable"

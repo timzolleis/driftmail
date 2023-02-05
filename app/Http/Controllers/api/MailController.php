@@ -5,6 +5,8 @@ namespace App\Http\Controllers\api;
 use App\Jobs\ScheduledEmail;
 use App\Models\MailQueue;
 use App\Service\MailRequestParsingService;
+use App\Service\MailService;
+use App\Service\VariableParsingService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Request;
@@ -17,37 +19,29 @@ class MailController extends BaseController
     use DispatchesJobs;
 
     protected MailRequestParsingService $mailRequestParsingService;
+    protected MailService $mailService;
+    protected VariableParsingService $variableParsingService;
 
-    public function __construct(MailRequestParsingService $mailRequestParsingService)
+    public function __construct(MailRequestParsingService $mailRequestParsingService, MailService $mailService, VariableParsingService $variableParsingService)
     {
         $this->mailRequestParsingService = $mailRequestParsingService;
+        $this->mailService = $mailService;
+        $this->variableParsingService = $variableParsingService;
     }
 
     public function send(Request $request)
     {
-        try {
-            $requestId = Str::uuid();
-            $userMailRequests = $this->mailRequestParsingService->parseMailRequest($request);
-            foreach ($userMailRequests as $request) {
-                $mailConfig = $request['mailConfig'];
-                $mailRequest = $request['mailRequest'];
-                $mailAddress = $request['mailAddress'];
-                $mailJob = new ScheduledEmail($mailConfig, $mailRequest, $mailAddress, $requestId);
-                $jobId = app(\Illuminate\Contracts\Bus\Dispatcher::class)->dispatch($mailJob);
-                MailQueue::create([
-                    'request_id' => $requestId,
-                    'job_id' => $jobId,
-                    'mail_address' => $mailAddress,
-                    'status' => 'waiting'
-                ]);
-            }
-            return \response([
+//
+        $requestId = Str::uuid();
+        $validated = $this->mailService->validateRequest($request);
+        $template = $this->mailService->getTemplate($validated);
+        $recipientMailObjects = $this->variableParsingService->parseVariables($template, $validated);
+        foreach ($recipientMailObjects as $recipientMailAddress => $recipientMailObject) {
+            $this->mailService->queueMail($recipientMailObject, $recipientMailAddress, $requestId);
+        }
+        return \response([
                 'request_id' => $requestId
             ], 200);
-        } catch (ModelNotFoundException $exception) {
-            return \response([
-                'error' => "Email template does not exist"], 404);
-        }
     }
 
 
