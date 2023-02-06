@@ -26,7 +26,7 @@
             :show-modal="showDeleteModal"
         >
         </ConfirmationModal>
-        <LargeModal title="Edit template" :show="showEditModal">
+        <LargeModal title="Edit template" :show="showEditModal" @close="showEditModal = false">
             <EditTemplateComponent
                 :template="template"
                 @success="showEditModal = false"

@@ -79,7 +79,7 @@ function generateApiKey() {
 }
 
 function deleteProject() {
-    return router.delete(useGetRelativeUrl('/project', '/settings'))
+    return router.delete(useGetRelativeUrl('/project', '/'))
 }
 
 function saveForm() {

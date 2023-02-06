@@ -46,10 +46,11 @@ class ProjectController extends BaseController
         return Redirect::back();
     }
 
-    public function delete($id): \Illuminate\Http\RedirectResponse
+    public function delete(Project $project): \Illuminate\Http\RedirectResponse
     {
-        Project::destroy($id);
-        return redirect('/');
+
+        $project->delete();
+        return Redirect::to('/');
     }
 
 }

@@ -53,6 +53,7 @@ class Handler extends ExceptionHandler
             if ($exception instanceof ValidationException) {
                 return redirect()->back()->withErrors($exception->validator->getMessageBag()->toArray());
             }
+
             return response(['error' => $exception->getMessage()], $exception->getCode() ?: 500);
         });
     }
