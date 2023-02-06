@@ -53,9 +53,7 @@ const form = useForm({
 });
 const emit = defineEmits(["success"]);
 function postForm() {
-    form.post(`/project/${props.project.id}/variable/new`, {
-        onSuccess: () => emit("success"),
-    });
+    form.post(`/project/${props.project.id}/variable/new`);
 }
 </script>
 

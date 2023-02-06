@@ -29,6 +29,7 @@ class VariableController extends BaseController
         $validated = $request->validated();
         $validated['scope'] = ArrayHelper::getValueWithDotAnnotation($validated, 'scope.value');
         $project->variables()->create($validated);
+        return Redirect::back();
     }
 
     public function update(EditVariableRequest $request, Project $project, Variable $variable)

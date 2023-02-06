@@ -11,11 +11,15 @@
 import { useGetRelativeUrl } from "../../composables/navigation";
 import TemplateFormComponent from "./TemplateFormComponent.vue";
 import { useTemplateForm } from "../../composables/template";
-import { ref } from "@vue/reactivity";
-import { onBeforeMount } from "@vue/runtime-core";
+import { useForm } from "@inertiajs/vue3";
 
 const emit = defineEmits(["success"]);
-const form = useTemplateForm();
+const form = useForm({
+    name: "",
+    description: "",
+    subject: "",
+    body: "",
+});
 
 function saveTemplate() {
     form.post(useGetRelativeUrl("/project", "/templates"), {

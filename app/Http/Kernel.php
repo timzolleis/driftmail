@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\SetProjectId;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
