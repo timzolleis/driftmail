@@ -1,21 +1,37 @@
 <template>
-    <div class="flex items-center justify-between gap-2 pb-3">
-        <h3 class="font-inter text-title-small font-medium text-gray-600">Projects</h3>
-        <BlackButton button-text="Add" v-if="projects.length > 0"
-                     class="px-3 py-1.5 rounded ring ring-1 ring-gray-600 text-white bg-black  font-inter" type="button"
-                     @click="router.get('/project/new')">
-        </BlackButton>
+    <div class="flex py-3 justify-between border-b">
+        <PageHeader title="My Projects" />
+        <DefaultButton
+            button-text="Add"
+            class="rounded ring ring-1 ring-gray-600 text-white bg-black font-inter"
+            type="button"
+            @click="showModal = true"
+        >
+        </DefaultButton>
     </div>
-            <CardContainer>
-                <div v-if="projects.length > 0">
-                    <ProjectsTable :projects="projects"/>
-                </div>
-                <div v-else>
-                    <NotPresentComponent type="Project" link="/project/new"></NotPresentComponent>
-                </div>
-
-            </CardContainer>
-
+    <Modal :show="showModal" @close="showModal = false" title="Add Project">
+        <div class="px-10">
+            <AddProjectComponent
+                @success="showModal = false"
+            ></AddProjectComponent>
+        </div>
+    </Modal>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2 font-inter py-4">
+        <CardContainer v-for="project in projects">
+            <div class="flex items-center justify-between">
+                <section class="space-y-1">
+                    <p class="font-medium text-title-small">
+                        {{ project.name }}
+                    </p>
+                    <p class="text-gray-600">{{ project.description }}</p>
+                </section>
+                <DefaultButton
+                    @click="router.get(`/project/${project.id}`)"
+                    button-text="View"
+                ></DefaultButton>
+            </div>
+        </CardContainer>
+    </div>
 </template>
 
 <script lang="ts">
@@ -23,21 +39,22 @@ import CardContainer from "../../Shared/Layout/CardContainer.vue";
 
 export default {
     name: "ProjectsComponent",
-    components: {CardContainer}
-}
+    components: { CardContainer },
+};
 </script>
 
 <script setup lang="ts">
-import {Project} from "../../models/Project";
-import NoProjectsComponent from "./NoProjectsComponent.vue";
-import ProjectsTable from "../table/ProjectsTable.vue";
-import {router} from "@inertiajs/vue3";
-import NotPresentComponent from "../common/NotPresentComponent.vue";
-import BlackButton from "../common/BlackButton.vue";
+import { Project } from "../../models/Project";
+import DefaultButton from "../common/BlackButton.vue";
+import Modal from "../common/Modal.vue";
+import AddProjectComponent from "./AddProjectComponent.vue";
+import { ref } from "@vue/reactivity";
+import { router } from "@inertiajs/vue3";
+import PageHeader from "../../Shared/Page/PageHeader.vue";
 
-const props = defineProps<{ projects?: Project[] }>()
+const showModal = ref(false);
+
+const props = defineProps<{ projects?: Project[] }>();
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

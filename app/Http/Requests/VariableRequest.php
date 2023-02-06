@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class VariableRequest extends FormRequest
 {
@@ -14,11 +16,15 @@ class VariableRequest extends FormRequest
 
     public function rules(): array
     {
+        $userId = Auth::user()->id;
+        $projectId = $this->project->id;
         return [
-            'key' => 'required | unique:variables',
+            'key' => ['required', Rule::unique('variables')->where(function ($query) use ($projectId) {
+                return $query->where('key', $this->request->get('key'))->where('project_id', $projectId);
+            })],
             'value' => 'required',
             'description' => 'nullable',
-            'isGlobal' => 'required | boolean',
+            'scope' => 'required'
         ];
     }
 

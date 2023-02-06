@@ -1,7 +1,7 @@
 <template>
     <div class="w-full flex justify-between font-inter">
         <div class="flex gap-2 items-center">
-            <img class="h-8" src="/assets/img/mail-icon.svg" alt="">
+            <img @click="router.get('/')" class="h-8 hover:cursor-pointer" src="/assets/img/mail-icon.svg" alt="">
         </div>
         <div>
             <div v-if="!user">

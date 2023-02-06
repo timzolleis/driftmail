@@ -7,7 +7,7 @@ use App\Jobs\ScheduledEmail;
 use App\Mail\ApiMail;
 use App\Models\entities\MailConfig;
 use App\Models\entities\MailRequest;
-use App\Models\Template;
+use App\Models\MailObject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -38,7 +38,7 @@ class MailRequestParsingService
 
     private function getMailTemplate(string $templateName)
     {
-        return Template::where('name', $templateName)->firstOrFail();
+        return MailObject::where('name', $templateName)->firstOrFail();
     }
 
 

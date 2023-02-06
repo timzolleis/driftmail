@@ -35,5 +35,23 @@ class Project extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function templates(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Template::class);
+    }
+
+    public function variables(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Variable::class);
+    }
+
+    public function settings()
+    {
+        return $this->hasOne(ProjectSettings::class);
+    }
+    public function queue(){
+        return $this->hasMany(MailQueue::class);
+    }
+
 
 }

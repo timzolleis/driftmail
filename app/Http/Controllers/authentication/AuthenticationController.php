@@ -42,7 +42,6 @@ class AuthenticationController
             return $service->authorize();
         }
 
-
         return redirect('/login');
     }
 

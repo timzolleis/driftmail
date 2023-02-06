@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class CreateTemplateRequest extends FormRequest
 {
@@ -14,10 +16,15 @@ class CreateTemplateRequest extends FormRequest
 
     public function rules(): array
     {
+        $userId = Auth::user()->id;
+        $projectId = $this->project->id;
         return [
-            'name' => "required | unique:templates,name",
+            'name' => ['required', Rule::unique('templates')->where(function ($query) use ($projectId) {
+                return $query->where('name', $this->request->get('name'))->where('project_id', $projectId);
+            })],
+            'description' => 'nullable',
             'subject' => 'required',
-            'text' => 'nullable',
+            'body' => 'nullable',
         ];
     }
 

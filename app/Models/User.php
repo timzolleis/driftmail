@@ -41,15 +41,5 @@ class User extends Authenticatable
         return $this->hasMany(Project::class);
     }
 
-    public function variables(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(Variable::class);
-    }
-
-    public function templates(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(Template::class);
-    }
-
 
 }

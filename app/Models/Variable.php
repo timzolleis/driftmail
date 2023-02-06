@@ -15,24 +15,23 @@ class Variable extends Model
     protected $table = 'variables';
     protected $keyType = 'string';
     protected $fillable = [
-        'id',
         'key',
         'value',
         'description',
-        'is_global'
+        'scope',
+        'project_id'
     ];
     public $timestamps = false;
     protected $casts = [
-        'id' => 'string',
         'key' => 'string',
         'value' => 'string',
         'description' => 'string',
-        'is_global' => 'string',
+        'scope' => 'string',
     ];
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function project(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Project::class);
     }
 
 

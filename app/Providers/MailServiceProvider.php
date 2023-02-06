@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\entities\MailConfig;
 use App\Models\ProjectConfiguration;
+use App\Models\ProjectSettings;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
@@ -19,7 +20,7 @@ class MailServiceProvider extends ServiceProvider
     public function register()
     {
         $apiKey = $this->app->request->header('x-api-key');
-        $projectConfig = ProjectConfiguration::where('api_key', $apiKey)->first();
+        $projectConfig = ProjectSettings::where('api_key', $apiKey)->first();
         $mailConfig = MailConfig::getFromProjectConfiguration($projectConfig);
         Config::set('mail', $mailConfig->getConfigurationArray());
     }

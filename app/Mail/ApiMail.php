@@ -9,6 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use function Symfony\Component\Translation\t;
 
 class
 
@@ -21,12 +22,13 @@ ApiMail extends Mailable
      *
      * @return void
      */
+    public string $mailSubject;
+    public string $mailBody;
 
-    public MailRequest $mailRequest;
-
-    public function __construct(MailRequest $mailRequest)
+    public function __construct(string $mailSubject, string $mailBody)
     {
-        $this->mailRequest = $mailRequest;
+        $this->mailSubject = $mailSubject;
+        $this->mailBody = $mailBody;
     }
 
     /**
@@ -37,7 +39,7 @@ ApiMail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: $this->mailRequest->getSubject()
+            subject: $this->mailSubject
         );
     }
 
@@ -50,7 +52,7 @@ ApiMail extends Mailable
     {
         return new Content(
             markdown: 'emails.default', with: [
-            'body' => $this->mailRequest->getBody()]
+            'body' => $this->mailBody]
         );
     }
 

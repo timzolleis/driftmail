@@ -87,4 +87,6 @@
     src: url("/public/assets/fonts/inter/Inter-Black.woff2?v=3.19") format("woff2"),
     url("/public/assets/fonts/inter/Inter-Black.woff?v=3.19") format("woff");
 }
-
+html {
+    background-color: #fafafa;
+}

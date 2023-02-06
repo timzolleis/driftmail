@@ -2,9 +2,6 @@ export type Project = {
     id: string;
     name: string;
     description: string;
-    active: number;
-    config: ProjectConfiguration
-
 }
 
 type ProjectConfiguration = {
@@ -18,4 +15,16 @@ type ProjectConfiguration = {
     mail_sending_address: string;
     mail_test_receiver?: string
 
+}
+
+
+export type ProjectSettings = {
+    api_key: string
+    mail_host: string;
+    mail_port: string;
+    mail_user: string;
+    mail_password: string;
+    mail_sending_address: string;
+    mail_sending_name: string;
+    test_mail_receiver: string;
 }
