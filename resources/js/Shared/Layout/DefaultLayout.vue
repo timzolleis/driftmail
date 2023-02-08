@@ -1,9 +1,9 @@
 <template>
     <div class="h-screen">
         <nav class="flex justify-center w-full">
-            <section class="w-4/5 py-3">
-                <LogoBar/>
-                <NavBar/>
+            <section class="md:w-4/5 py-3">
+                <LogoBar />
+                <NavBar />
             </section>
         </nav>
 
@@ -16,16 +16,13 @@
 </template>
 
 <script>
-
-import LogoBar from "@/Shared/Nav/LogoBar.vue";
-import NavBar from "@/Shared/Nav/NavBar.vue";
+import LogoBar from "../Nav/LogoBar.vue";
+import NavBar from "../Nav/NavBar.vue";
 
 export default {
     name: "DefaultLayout",
-    components: {NavBar, LogoBar}
-}
+    components: { NavBar, LogoBar },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

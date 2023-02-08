@@ -17,27 +17,14 @@
             ></VariableScopeComponent
         ></span>
         <OptionsMenu
-            @edit="showEditModal = true"
+            @edit="emit('edit', variable)"
             @delete="showDeleteModal = true"
             :options="options"
         >
         </OptionsMenu>
         <Teleport to="body">
-            <Modal
-                :show="showEditModal"
-                @close="showEditModal = false"
-                title="Edit Variable"
-            >
-                <div class="px-10">
-                    <EditVariableComponent
-                        @success="showEditModal = false"
-                        :variable="variable"
-                        :project="project"
-                    ></EditVariableComponent>
-                </div>
-            </Modal>
             <ConfirmationModal
-                @confirm="deleteVariable"
+                @confirm="emit('delete', variable)"
                 @cancel="showDeleteModal = false"
                 @close="showDeleteModal = false"
                 :confirmation-text="`Are you sure you want to delete the variable ${variable.key}?`"
@@ -52,10 +39,7 @@ import { Variable } from "../../models/Variable";
 import OptionsMenu from "../common/OptionsMenu.vue";
 import { DropdownOption } from "../../models/Select";
 import { ref } from "@vue/reactivity";
-import Modal from "../common/Modal.vue";
-import AddVariableComponent from "./AddVariableComponent.vue";
 import { Project } from "../../models/Project";
-import EditVariableComponent from "./EditVariableComponent.vue";
 import VariableScopeComponent from "./scope/VariableScopeComponent.vue";
 import { scopes } from "../../config/props";
 import { router } from "@inertiajs/vue3";
@@ -66,13 +50,11 @@ const props = defineProps<{
     variable: Variable;
 }>();
 
-const showEditModal = ref(false);
 const showDeleteModal = ref(false);
-
-function deleteVariable() {
-    router.delete(`/project/${props.project.id}/variable/${props.variable.id}`);
-    showDeleteModal.value = false;
-}
+const emit = defineEmits<{
+    (e: "edit", variable: Variable): void;
+    (e: "delete", variable: Variable): void;
+}>();
 
 const options: DropdownOption[] = [
     {

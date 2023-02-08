@@ -1,11 +1,11 @@
 <template>
-    <div class="w-full font-inter px-10">
+    <div class="w-full font-inter px-5 md:px-10">
         <TabGroup>
             <TabList class="w-full flex space-x-1 rounded-xl py-3">
                 <Tab v-slot="{ selected }" class="w-full">
                     <button
                         :class="[
-                            'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
+                            'w-full rounded-full py-1.5 text-sm font-medium leading-5',
                             'ring-white ring-opacity-60 focus:ring-2',
                             selected
                                 ? 'bg-black text-white shadow-md'
@@ -18,11 +18,11 @@
                 <Tab v-slot="{ selected }" class="w-full">
                     <button
                         :class="[
-                            'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
+                            'w-full rounded-full py-1.5 text-sm font-medium leading-5',
                             'ring-white ring-opacity-60 focus:ring-2',
                             selected
                                 ? 'bg-black text-white shadow-md'
-                                : 'border border-black/50 text-black',
+                                : 'border border-black',
                         ]"
                     >
                         Mail templating

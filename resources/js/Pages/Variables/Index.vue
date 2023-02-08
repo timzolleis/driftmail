@@ -15,16 +15,15 @@
             @close="showModal = false"
             title="Add Variable"
         >
-            <div class="px-10">
-                <AddVariableComponent
-                    :project="project"
-                    @success="showModal = false"
-                ></AddVariableComponent>
-            </div>
+            <VariableFormComponent
+                :variable="currentVariable"
+            ></VariableFormComponent>
         </Modal>
     </div>
     <main class="space-y-1 py-3">
         <VariableComponent
+            @edit="(variable) => editVariable(variable)"
+            @delete="(variable) => deleteVariable(variable)"
             v-for="variable in variables"
             :variable="variable"
             :project="project"
@@ -42,13 +41,40 @@ import { ref } from "@vue/reactivity";
 import Modal from "../../components/common/Modal.vue";
 import { Project } from "../../models/Project";
 import VariableComponent from "../../components/variables/VariableComponent.vue";
+import { VariableForm } from "../../composables/variable";
+import { useGetRelativeUrl } from "../../composables/navigation";
+import { useModal } from "../../composables/modal";
+import { router } from "@inertiajs/vue3";
+import VariableFormComponent from "../../components/variables/VariableFormComponent.vue";
 
 defineOptions({ layout: ProjectLayout });
-const showModal = ref(false);
 const props = defineProps<{
     project: Project;
     variables: Variable[];
 }>();
+const { showModal, openModal, closeModal } = useModal();
+const currentVariable = ref();
+
+function editVariable(variable: Variable) {
+    openModal();
+    currentVariable.value = variable;
+}
+
+function createVariable(form: VariableForm) {
+    return form.post(useGetRelativeUrl("/project", "/variable/new"), {
+        onSuccess: () => closeModal(),
+    });
+}
+
+function updateVariable(form: VariableForm, variableId: string) {
+    return form.put(useGetRelativeUrl("/project", `/variable/${variableId}`));
+}
+
+function deleteVariable(variable: Variable) {
+    return router.delete(
+        useGetRelativeUrl("/project", `/variable/${variable.id}`)
+    );
+}
 </script>
 
 <style scoped></style>
