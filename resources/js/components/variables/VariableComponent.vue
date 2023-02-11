@@ -16,12 +16,14 @@
                 :scope="scopes.find((scope) => scope.value === variable.scope)"
             ></VariableScopeComponent
         ></span>
-        <OptionsMenu
-            @edit="emit('edit', variable)"
-            @delete="showDeleteModal = true"
-            :options="options"
-        >
-        </OptionsMenu>
+        <div class="relative">
+            <OptionsMenu
+                @edit="emit('edit', variable)"
+                @delete="showDeleteModal = true"
+                :options="options"
+            >
+            </OptionsMenu>
+        </div>
         <Teleport to="body">
             <ConfirmationModal
                 @confirm="emit('delete', variable)"

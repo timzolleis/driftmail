@@ -113,6 +113,5 @@ const props = defineProps<{
     modelValue: SelectOption;
     scopes: SelectOption[];
 }>();
-
 const emit = defineEmits(["update:modelValue"]);
 </script>

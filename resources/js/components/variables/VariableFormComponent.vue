@@ -25,11 +25,10 @@
             v-model="form.scope"
             :scopes="scopes"
         ></SelectVariableScopeComponent>
-
         <BlackButton
             @click="emit('save')"
             class="w-full mt-5 py-3"
-            button-text="Add Variable"
+            :button-text="intent === 'edit' ? 'Save variable' : 'Add variable'"
         ></BlackButton>
     </section>
 </template>
@@ -42,8 +41,10 @@ import TextInput from "../form/TextInput.vue";
 import { Variable } from "../../models/Variable";
 import { useVariableForm } from "../../composables/variable";
 import { scopes } from "../../config/props";
+
 const props = defineProps<{
     variable?: Variable;
+    intent: string;
 }>();
 
 const form = useVariableForm(props.variable);

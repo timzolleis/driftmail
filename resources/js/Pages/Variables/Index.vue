@@ -10,15 +10,18 @@
         </BlackButton>
     </div>
     <div>
-        <Modal
-            :show="showModal"
-            @close="showModal = false"
-            title="Add Variable"
-        >
-            <VariableFormComponent
-                :variable="currentVariable"
-            ></VariableFormComponent>
-        </Modal>
+        <Teleport to="body">
+            <Modal
+                :show="showModal"
+                @close="showModal = false"
+                title="Add Variable"
+            >
+                <VariableFormComponent
+                    :intent="intent"
+                    :variable="currentVariable"
+                ></VariableFormComponent>
+            </Modal>
+        </Teleport>
     </div>
     <main class="space-y-1 py-3">
         <VariableComponent
@@ -36,7 +39,6 @@ import ProjectLayout from "../../Shared/Layout/ProjectLayout.vue";
 import { Variable } from "../../models/Variable";
 import PageHeader from "../../Shared/Page/PageHeader.vue";
 import BlackButton from "../../components/common/BlackButton.vue";
-import AddVariableComponent from "../../components/variables/AddVariableComponent.vue";
 import { ref } from "@vue/reactivity";
 import Modal from "../../components/common/Modal.vue";
 import { Project } from "../../models/Project";
@@ -53,11 +55,13 @@ const props = defineProps<{
     variables: Variable[];
 }>();
 const { showModal, openModal, closeModal } = useModal();
-const currentVariable = ref();
+const currentVariable = ref(props.variables[0]);
+const intent = ref("add");
 
 function editVariable(variable: Variable) {
-    openModal();
     currentVariable.value = variable;
+    intent.value = "edit";
+    openModal();
 }
 
 function createVariable(form: VariableForm) {

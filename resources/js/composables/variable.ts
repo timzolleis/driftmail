@@ -1,5 +1,6 @@
 import { Variable } from "../models/Variable";
 import { useForm } from "@inertiajs/vue3";
+import { scopes } from "../config/props";
 
 export function useVariableForm(variable?: Variable) {
     if (variable) {
@@ -7,7 +8,7 @@ export function useVariableForm(variable?: Variable) {
             key: variable.key,
             value: variable.value,
             description: variable.description,
-            scope: variable.scope,
+            scope: scopes.find((scope) => scope.value === variable.scope),
         });
     }
     return useForm({
