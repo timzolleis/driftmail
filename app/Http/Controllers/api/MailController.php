@@ -47,9 +47,6 @@ class MailController extends BaseController
     public function getStatus(string $requestId)
     {
         $jobs = MailQueue::where('request_id', $requestId)->get();
-        foreach ($jobs as $job) {
-            $job['job_id'] = rand();
-        }
         return \response([
             'jobs' => $jobs
         ], 200);
