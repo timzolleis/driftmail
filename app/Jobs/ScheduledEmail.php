@@ -57,12 +57,13 @@ class ScheduledEmail implements ShouldQueue
      */
     public function handle()
     {
-        $configArray =  $this->mailConfig->getConfigurationArray();
         try {
-            Config::set('mail', $configArray);
-            $app = App::getInstance();
-            $app->register('Illuminate\Mail\MailServiceProvider');
-            Mail::to($this->recipientAddress)->send(new ApiMail($this->subject, $this->body, $this->mailConfig->getSendingAddress(), $this->mailConfig->getSendingName()));
+            $parameters = [
+                'mail_config' => $this->mailConfig
+            ];
+            $mailable = new ApiMail($this->subject, $this->body, $this->mailConfig->getSendingAddress(), $this->mailConfig->getSendingName());
+            $mailer = app()->make('user.mailer', $parameters);
+            $mailer->to($this->recipientAddress)->send($mailable);
             return $this->job->getJobId();
         } catch (\Exception $exception) {
             Log::debug("Caught exception when sending an email");

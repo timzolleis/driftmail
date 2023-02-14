@@ -32,8 +32,6 @@ class ApiAuthentication extends Middleware
         throw_if(!$project, new ProjectNotFoundException('There was no project matching to your provided API Key. Please revisit your configuration!', 400));
         session()->put('project_id', $project->id);
         Auth::loginUsingId($project->user_id);
-        $app = App::getInstance();
-        $app->register(MailServiceProvider::class);
         return $next($request);
     }
 }

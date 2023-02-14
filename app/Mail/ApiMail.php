@@ -25,11 +25,15 @@ ApiMail extends Mailable
      */
     public string $mailSubject;
     public string $mailBody;
+    public string $mailSendingAddress;
+    public string $mailSendingName;
 
-    public function __construct(string $mailSubject, string $mailBody)
+    public function __construct(string $mailSubject, string $mailBody, string $mailSendingAddress, string $mailSendingName)
     {
         $this->mailSubject = $mailSubject;
         $this->mailBody = $mailBody;
+        $this->mailSendingAddress = $mailSendingAddress;
+        $this->mailSendingName = $mailSendingName;
     }
 
     /**
@@ -40,6 +44,7 @@ ApiMail extends Mailable
     public function envelope()
     {
         return new Envelope(
+            from: new Address($this->mailSendingAddress, $this->mailSendingName),
             subject: $this->mailSubject
         );
     }

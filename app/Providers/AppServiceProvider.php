@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Mail\ApiMail;
 use App\Models\MailQueue;
 use Illuminate\Queue\Events\JobFailed;
 use Illuminate\Queue\Events\JobProcessed;
@@ -11,6 +12,10 @@ use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use PHPUnit\Framework\MockObject\Exception;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mailer\Transport\Dsn;
+use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransportFactory;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,8 +36,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Schema::defaultStringLength(800);
+        $this->app->bind('user.mailer', function ($app, $parameters) {
+            $factory = new EsmtpTransportFactory;
+            $mailConfig = $parameters['mail_config'];
+            $transport = $factory->create(new Dsn(!empty($config['encryption']) && $mailConfig->getEncryption() === 'tls' ? (($mailConfig->getPort() == 465) ? 'smtps' : 'smtp') : '',
+                $mailConfig->getHost(), $mailConfig->getUsername(), $mailConfig->getPassword(), $mailConfig->getPort()));
+            return new \Illuminate\Mail\Mailer('user.mailer', $this->app->get('view'), $transport, $this->app->get('events'));
+        });
 
+        Schema::defaultStringLength(800);
         Queue::before(function (JobProcessing $event) {
             $payload = json_decode($event->job->getRawBody());
             $data = unserialize($payload->data->command);
@@ -57,7 +69,6 @@ class AppServiceProvider extends ServiceProvider
                 ]);
             }
         });
-
         Queue::failing(function (JobFailed $event) {
             $payload = json_decode($event->job->getRawBody());
             $data = unserialize($payload->data->command);
