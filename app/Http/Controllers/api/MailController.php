@@ -12,6 +12,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class MailController extends BaseController
@@ -35,8 +36,10 @@ class MailController extends BaseController
         $validated = $this->mailService->validateRequest($request);
         $template = $this->mailService->getTemplate($validated);
         $recipientMailObjects = $this->variableParsingService->parseVariables($template, $validated);
-        foreach ($recipientMailObjects as $recipientMailAddress => $recipientMailObject) {
-            $this->mailService->queueMail($recipientMailObject, $recipientMailAddress, $requestId);
+        foreach ($recipientMailObjects as $recipientMailObjectInArray) {
+            $mailAddress = $recipientMailObjectInArray['mailAddress'];
+            $mailObject = $recipientMailObjectInArray['mailObject'];
+            $this->mailService->queueMail($mailObject, $mailAddress, $requestId);
         }
         return \response([
             'request_id' => $requestId

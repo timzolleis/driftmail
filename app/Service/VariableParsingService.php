@@ -16,13 +16,17 @@ class VariableParsingService
     {
         $mailObject = new MailObject($template->subject, $template->body);
 
-
         if (ArrayHelper::getValueWithDotAnnotation($validatedRequest, 'variables') !== null) {
             $this->parseGlobalVariables($mailObject, $validatedRequest);
         }
         $recipientMailObjects = [];
         foreach (ArrayHelper::getValueWithDotAnnotation($validatedRequest, 'recipients') as $recipient) {
-            $recipientMailObjects[ArrayHelper::getValueWithDotAnnotation($recipient, 'mailAddress')] = $this->parseLocalVariables($mailObject, $recipient);
+            $mailAddress = ArrayHelper::getValueWithDotAnnotation($recipient, 'mailAddress');
+            $mailObject = $this->parseLocalVariables($mailObject, $recipient);
+            $recipientMailObjects[] = [
+                'mailAddress' => $mailAddress,
+                'mailObject' => $mailObject
+            ];
         }
         return $recipientMailObjects;
     }
