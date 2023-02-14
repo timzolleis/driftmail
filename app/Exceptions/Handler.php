@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Http\Request;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -49,11 +49,16 @@ class Handler extends ExceptionHandler
             //
         });
 
-        $this->renderable(function (Throwable $exception) {
-            if ($exception instanceof ValidationException) {
-                return redirect()->back()->withErrors($exception->validator->getMessageBag()->toArray());
+        $this->renderable(function (Throwable $exception, Request $request) {
+
+            //This will handle our api exceptions but exclude inertia requests so form validation will still work
+            if ($request->expectsJson() || $request->is('api/*')) {
+                return response(['error' => $exception->getMessage()], $exception->getCode() ?: 500);
             }
-            return response(['error' => $exception->getMessage()], $exception->getCode() ?: 500);
+
+            return redirect()->back()->withErrors($exception->validator->getMessageBag()->toArray());
+
+
         });
     }
 }

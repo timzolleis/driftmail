@@ -31,7 +31,6 @@ class MailController extends BaseController
 
     public function send(Request $request)
     {
-//
         $requestId = Str::uuid();
         $validated = $this->mailService->validateRequest($request);
         $template = $this->mailService->getTemplate($validated);
@@ -40,14 +39,17 @@ class MailController extends BaseController
             $this->mailService->queueMail($recipientMailObject, $recipientMailAddress, $requestId);
         }
         return \response([
-                'request_id' => $requestId
-            ], 200);
+            'request_id' => $requestId
+        ], 200);
     }
 
 
     public function getStatus(string $requestId)
     {
         $jobs = MailQueue::where('request_id', $requestId)->get();
+        foreach ($jobs as $job) {
+            $job['job_id'] = rand();
+        }
         return \response([
             'jobs' => $jobs
         ], 200);

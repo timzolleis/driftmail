@@ -1,7 +1,7 @@
 <template>
     <div class="h-screen">
         <nav class="flex justify-center w-full">
-            <section class="md:w-4/5 py-3">
+            <section class="w-11/12 lg:w-4/5 py-3">
                 <LogoBar />
                 <NavBar />
             </section>

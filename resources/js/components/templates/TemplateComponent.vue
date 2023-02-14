@@ -11,7 +11,7 @@
             </p>
         </div>
         <OptionsMenu
-            @edit="showEditModal = true"
+            @edit="emit('edit', template)"
             @delete="showDeleteModal = true"
             :options="options"
         >
@@ -19,51 +19,30 @@
     </div>
     <Teleport to="body">
         <ConfirmationModal
-            @confirm="deleteTemplate"
+            @confirm="emit('delete', template)"
             @cancel="showDeleteModal = false"
             @close="showDeleteModal = false"
             :confirmation-text="`Are you sure you want to delete the Template ${template.name}?`"
             :show-modal="showDeleteModal"
         >
         </ConfirmationModal>
-        <LargeModal title="Edit template" :show="showEditModal">
-            <EditTemplateComponent
-                :template="template"
-                @success="showEditModal = false"
-            ></EditTemplateComponent>
-        </LargeModal>
     </Teleport>
 </template>
 
 <script setup lang="ts">
-import {Template} from "../../models/Template";
-import {
-    useGetRelativeUrl,
-    useRelativeNavigation,
-} from "../../composables/navigation";
+import { Template } from "../../models/Template";
 import OptionsMenu from "../common/OptionsMenu.vue";
-import {DropdownOption} from "../../models/Select";
-import {ref} from "@vue/reactivity";
+import { DropdownOption } from "../../models/Select";
+import { ref } from "@vue/reactivity";
 import ConfirmationModal from "../common/ConfirmationModal.vue";
-import LargeModal from "../common/LargeModal.vue";
-import CreateTemplateComponent from "./CreateTemplateComponent.vue";
-import {router, useForm} from "@inertiajs/vue3";
-import EditTemplateComponent from "./EditTemplateComponent.vue";
-import Modal from "../common/Modal.vue";
 
 const props = defineProps<{
     template: Template;
 }>();
-const templateForm = useForm({
-    name: "",
-    description: "",
-    subject: "",
-    body: "",
-});
-export type TemplateForm = typeof templateForm;
 
-const showDeleteModal = ref(false);
-const showEditModal = ref(false);
+const emit = defineEmits(["edit", "delete"]);
+const showDeleteModal = ref<boolean>(false);
+
 const options: DropdownOption[] = [
     {
         name: "Edit",
@@ -75,13 +54,4 @@ const options: DropdownOption[] = [
         color: "text-red-500",
     },
 ];
-
-function deleteTemplate() {
-    router.delete(
-        useGetRelativeUrl("/project", `/template/${props.template.id}`), {
-            onSuccess: () => showDeleteModal.value = false
-        }
-    );
-
-}
 </script>

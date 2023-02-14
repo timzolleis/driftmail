@@ -35,7 +35,9 @@ const form = useForm({
 const emit = defineEmits(["success"]);
 
 function postForm() {
-    form.post("/project/new");
+    form.post("/project/new", {
+        onSuccess: () => emit("success"),
+    });
 }
 </script>
 

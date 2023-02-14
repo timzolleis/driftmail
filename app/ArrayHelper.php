@@ -17,6 +17,7 @@ class ArrayHelper
         }
         return $result;
     }
+
     public static function getValueWithDotAnnotation(array &$array, string $path): mixed
     {
         try {
@@ -25,8 +26,9 @@ class ArrayHelper
                 $array = &$array[$key];
             }
             return $array;
-        } catch (Exception $exception){
+        } catch (Exception $exception) {
             Log::debug($exception);
+            return null;
         }
 
     }

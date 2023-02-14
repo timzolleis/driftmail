@@ -84,5 +84,13 @@ class MailConfig
 
     }
 
+    public function getSendingName(){
+        return $this->from->getName();
+    }
+
+    public function getSendingAddress(){
+        return $this->from->getAddress();
+    }
+
 
 }

@@ -15,7 +15,7 @@ export function useVariableForm(variable?: Variable) {
         key: "",
         value: "",
         description: "",
-        scope: "global:all",
+        scope: scopes[0],
     });
 }
 

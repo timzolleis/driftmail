@@ -1,37 +1,18 @@
 <template>
-    <div class="flex py-3 justify-between border-b">
-        <PageHeader title="My Projects" />
-        <DefaultButton
-            button-text="Add"
-            class="rounded ring ring-1 ring-gray-600 text-white bg-black font-inter"
-            type="button"
-            @click="showModal = true"
-        >
-        </DefaultButton>
-    </div>
-    <Modal :show="showModal" @close="showModal = false" title="Add Project">
-        <div class="px-10">
-            <AddProjectComponent
-                @success="showModal = false"
-            ></AddProjectComponent>
+    <CardContainer>
+        <div class="flex items-center justify-between">
+            <section class="space-y-1">
+                <p class="font-medium text-title-small">
+                    {{ project.name }}
+                </p>
+                <p class="text-gray-600">{{ project.description }}</p>
+            </section>
+            <DefaultButton
+                @click="router.get(`/project/${project.id}`)"
+                button-text="View"
+            ></DefaultButton>
         </div>
-    </Modal>
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2 font-inter py-4">
-        <CardContainer v-for="project in projects">
-            <div class="flex items-center justify-between">
-                <section class="space-y-1">
-                    <p class="font-medium text-title-small">
-                        {{ project.name }}
-                    </p>
-                    <p class="text-gray-600">{{ project.description }}</p>
-                </section>
-                <DefaultButton
-                    @click="router.get(`/project/${project.id}`)"
-                    button-text="View"
-                ></DefaultButton>
-            </div>
-        </CardContainer>
-    </div>
+    </CardContainer>
 </template>
 
 <script lang="ts">
@@ -54,7 +35,7 @@ import PageHeader from "../../Shared/Page/PageHeader.vue";
 
 const showModal = ref(false);
 
-const props = defineProps<{ projects?: Project[] }>();
+const props = defineProps<{ project?: Project }>();
 </script>
 
 <style scoped></style>

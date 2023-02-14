@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
+use function Symfony\Component\Translation\t;
 
 class MailServiceProvider extends ServiceProvider
 {
@@ -24,7 +25,6 @@ class MailServiceProvider extends ServiceProvider
         $mailConfig = MailConfig::getFromProjectConfiguration($projectConfig);
         Config::set('mail', $mailConfig->getConfigurationArray());
     }
-
     /**
      * Bootstrap services.
      *

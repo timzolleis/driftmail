@@ -17,6 +17,7 @@
                 title="Add Variable"
             >
                 <VariableFormComponent
+                    @save="(form) => handleClick(form)"
                     :intent="intent"
                     :variable="currentVariable"
                 ></VariableFormComponent>
@@ -48,15 +49,15 @@ import { useGetRelativeUrl } from "../../composables/navigation";
 import { useModal } from "../../composables/modal";
 import { router } from "@inertiajs/vue3";
 import VariableFormComponent from "../../components/variables/VariableFormComponent.vue";
-
+import {Intent} from "../../models/Form";
 defineOptions({ layout: ProjectLayout });
 const props = defineProps<{
     project: Project;
     variables: Variable[];
 }>();
 const { showModal, openModal, closeModal } = useModal();
-const currentVariable = ref(props.variables[0]);
-const intent = ref("add");
+const currentVariable = ref<Variable | undefined>();
+const intent = ref<Intent>("add");
 
 function editVariable(variable: Variable) {
     currentVariable.value = variable;
@@ -64,20 +65,33 @@ function editVariable(variable: Variable) {
     openModal();
 }
 
-function createVariable(form: VariableForm) {
+function handleClick(form: VariableForm) {
+    if (currentVariable.value) {
+        return form.put(
+            useGetRelativeUrl(
+                "/project",
+                `/variable/${currentVariable.value?.id}`
+            ),
+            {
+                onSuccess: () => resetPage(),
+            }
+        );
+    }
     return form.post(useGetRelativeUrl("/project", "/variable/new"), {
-        onSuccess: () => closeModal(),
+        onSuccess: () => resetPage(),
     });
-}
-
-function updateVariable(form: VariableForm, variableId: string) {
-    return form.put(useGetRelativeUrl("/project", `/variable/${variableId}`));
 }
 
 function deleteVariable(variable: Variable) {
     return router.delete(
         useGetRelativeUrl("/project", `/variable/${variable.id}`)
     );
+}
+
+function resetPage() {
+    closeModal();
+    currentVariable.value = undefined;
+    intent.value = "add";
 }
 </script>
 

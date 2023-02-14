@@ -26,7 +26,7 @@
             :scopes="scopes"
         ></SelectVariableScopeComponent>
         <BlackButton
-            @click="emit('save')"
+            @click="emit('save', form)"
             class="w-full mt-5 py-3"
             :button-text="intent === 'edit' ? 'Save variable' : 'Add variable'"
         ></BlackButton>
