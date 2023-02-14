@@ -31,7 +31,6 @@ class MailController extends BaseController
 
     public function send(Request $request)
     {
-//
         $requestId = Str::uuid();
         $validated = $this->mailService->validateRequest($request);
         $template = $this->mailService->getTemplate($validated);
@@ -40,8 +39,8 @@ class MailController extends BaseController
             $this->mailService->queueMail($recipientMailObject, $recipientMailAddress, $requestId);
         }
         return \response([
-                'request_id' => $requestId
-            ], 200);
+            'request_id' => $requestId
+        ], 200);
     }
 
 

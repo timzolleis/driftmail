@@ -17,3 +17,5 @@ export function useTemplateForm(template?: Template) {
         body: "",
     });
 }
+
+export type TemplateForm = ReturnType<typeof useTemplateForm>;

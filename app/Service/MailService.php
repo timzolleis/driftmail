@@ -10,12 +10,16 @@ use App\Models\entities\MailConfig;
 use App\Models\mail\MailObject;
 use App\Models\MailQueue;
 use App\Models\Project;
+use App\Models\ProjectSettings;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class MailService
 {
@@ -51,14 +55,29 @@ class MailService
 
     public function queueMail(MailObject $recipientMailObject, string $recipientMailAddress, string $requestId)
     {
-        $mailConfig = MailConfig::getFromConfigurationArray(Config::get('mail'));
-        $mailJob = new ScheduledEmail($requestId, $recipientMailAddress, $recipientMailObject->getSubject(), $recipientMailObject->getBody(), $mailConfig);
-        $jobId = app(\Illuminate\Contracts\Bus\Dispatcher::class)->dispatch($mailJob);
+        $jobIdentifier = Str::uuid();
+        $mailConfig = $this->getMailConfig();
+        ScheduledEmail::dispatch($requestId, $jobIdentifier, $recipientMailAddress, $recipientMailObject->getSubject(), $recipientMailObject->getBody(), $mailConfig);
         $project = Project::query()->find(session()->get('project_id'));
-        $project->queue()->create(['request_id' => $requestId,
-            'job_id' => $jobId,
+        $project->queue()->create(['id' => $jobIdentifier, 'request_id' => $requestId,
             'mail_address' => $recipientMailAddress,
             'status' => 'waiting']);
+    }
+
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \Exception
+     */
+    private function getMailConfig()
+    {
+        $projectId = session()->get('project_id');
+        if (!$projectId) {
+            throw new \Exception('Project is not defined in session!');
+        }
+        $projectConfig = ProjectSettings::where('project_id', $projectId)->first();
+        return MailConfig::getFromProjectConfiguration($projectConfig);
+
     }
 
 

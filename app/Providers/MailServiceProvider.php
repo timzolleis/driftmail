@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\Transport\Dsn;
+use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransportFactory;
+use function Symfony\Component\Translation\t;
 
 class MailServiceProvider extends ServiceProvider
 {
@@ -19,10 +23,6 @@ class MailServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $apiKey = $this->app->request->header('x-api-key');
-        $projectConfig = ProjectSettings::where('api_key', $apiKey)->first();
-        $mailConfig = MailConfig::getFromProjectConfiguration($projectConfig);
-        Config::set('mail', $mailConfig->getConfigurationArray());
     }
 
     /**

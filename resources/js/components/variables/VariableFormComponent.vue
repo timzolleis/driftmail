@@ -1,5 +1,5 @@
 <template>
-    <section class="p-5">
+    <section class="md:p-5">
         <TextInput
             :error-message="form.errors.key"
             placeholder="Event title"
@@ -25,38 +25,30 @@
             v-model="form.scope"
             :scopes="scopes"
         ></SelectVariableScopeComponent>
-
         <BlackButton
-            @click="postForm"
+            @click="emit('save', form)"
             class="w-full mt-5 py-3"
-            button-text="Add Variable"
+            :button-text="intent === 'edit' ? 'Save variable' : 'Add variable'"
         ></BlackButton>
     </section>
 </template>
 
 <script setup lang="ts">
-import TextInput from "../form/TextInput.vue";
 import BlackButton from "../common/BlackButton.vue";
-import { useForm, usePage } from "@inertiajs/vue3";
-import TextArea from "../form/TextArea.vue";
 import SelectVariableScopeComponent from "./SelectVariableScopeComponent.vue";
-import { Project } from "../../models/Project";
+import TextArea from "../form/TextArea.vue";
+import TextInput from "../form/TextInput.vue";
+import { Variable } from "../../models/Variable";
+import { useVariableForm } from "../../composables/variable";
 import { scopes } from "../../config/props";
+
 const props = defineProps<{
-    project: Project;
+    variable?: Variable;
+    intent: string;
 }>();
-const form = useForm({
-    key: "",
-    value: "",
-    description: "",
-    scope: scopes[0],
-});
-const emit = defineEmits(["success"]);
-function postForm() {
-    form.post(`/project/${props.project.id}/variable/new`, {
-        onSuccess: () => emit('success')
-    });
-}
+
+const form = useVariableForm(props.variable);
+const emit = defineEmits(["save"]);
 </script>
 
 <style scoped></style>

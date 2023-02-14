@@ -1,11 +1,11 @@
 <template>
-    <div class="w-full font-inter px-10">
+    <div class="w-full font-inter px-5 md:px-10">
         <TabGroup>
             <TabList class="w-full flex space-x-1 rounded-xl py-3">
                 <Tab v-slot="{ selected }" class="w-full">
                     <button
                         :class="[
-                            'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
+                            'w-full rounded-full py-1.5 text-sm font-medium leading-5',
                             'ring-white ring-opacity-60 focus:ring-2',
                             selected
                                 ? 'bg-black text-white shadow-md'
@@ -18,11 +18,11 @@
                 <Tab v-slot="{ selected }" class="w-full">
                     <button
                         :class="[
-                            'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
+                            'w-full rounded-full py-1.5 text-sm font-medium leading-5',
                             'ring-white ring-opacity-60 focus:ring-2',
                             selected
                                 ? 'bg-black text-white shadow-md'
-                                : 'border border-black/50 text-black',
+                                : 'border border-black',
                         ]"
                     >
                         Mail templating
@@ -41,14 +41,14 @@
                         <TextInput
                             label="Template name"
                             :use-label="true"
-                            v-model="modelValue.name"
-                            :error-message="modelValue.errors.name"
+                            v-model="form.name"
+                            :error-message="form.errors.name"
                         ></TextInput>
                         <TextArea
                             label="Template description"
                             :use-label="true"
-                            v-model="modelValue.description"
-                            :error-message="modelValue.errors.description"
+                            v-model="form.description"
+                            :error-message="form.errors.description"
                         ></TextArea>
                     </div>
                 </TabPanel>
@@ -64,8 +64,8 @@
                 </TabPanel>
                 <div class="flex gap-2 items-center justify-end py-4">
                     <BlackButton
-                        @click="emit('save')"
-                        :button-text="type === 'create' ? 'Add' : 'Save'"
+                        @click="emit('save', form)"
+                        button-text="Save"
                     ></BlackButton>
                 </div>
             </TabPanels>
@@ -81,19 +81,15 @@ import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
 import TextInput from "../form/TextInput.vue";
 import BlackButton from "../common/BlackButton.vue";
 import { TemplateForm } from "./TemplateComponent.vue";
-import { FormPurpose } from "../../models/Template";
+import { FormPurpose, Template } from "../../models/Template";
 import TemplateMailComponent from "./mail/TemplateMailComponent.vue";
 import { watch } from "@vue/runtime-core";
+import { useTemplateForm } from "../../composables/template";
 
 const props = defineProps<{
-    modelValue: TemplateForm;
-    type: FormPurpose;
+    template?: Template;
 }>();
-const form = props.modelValue;
 
-watch(form, (newValue) => {
-    emit("update:modelValue", newValue);
-});
-
-const emit = defineEmits(["update:modelValue", "save"]);
+const form = useTemplateForm(props.template);
+const emit = defineEmits(['save'])
 </script>

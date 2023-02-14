@@ -48,9 +48,8 @@ class ProjectController extends BaseController
 
     public function delete(Project $project): \Illuminate\Http\RedirectResponse
     {
-
         $project->delete();
-        return Redirect::to('/');
+        return redirect('/');
     }
 
 }

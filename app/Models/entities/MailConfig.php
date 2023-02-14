@@ -84,5 +84,72 @@ class MailConfig
 
     }
 
+    public function getSendingName(){
+        return $this->from->getName();
+    }
+
+    public function getSendingAddress(){
+        return $this->from->getAddress();
+    }
+
+    /**
+     * @return string
+     */
+    public function getDriver(): string
+    {
+        return $this->driver;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHost(): string
+    {
+        return $this->host;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPort(): int
+    {
+        return $this->port;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEncryption(): string
+    {
+        return $this->encryption;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUsername(): string
+    {
+        return $this->username;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    /**
+     * @return MailSender
+     */
+    public function getFrom(): MailSender
+    {
+        return $this->from;
+    }
+
+
+
+
 
 }

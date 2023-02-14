@@ -8,7 +8,7 @@
         <div class="flex gap-2 items-center">
             <div class="w-full">
                 <input
-                    class="block w-full rounded-md border border-gray-200 bg-white py-2 px-3 text-sm font-inter shadow-lg focus:border-black focus:outline-none focus:ring-0"
+                    class="peer block w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-md hover:shadow-lg transition ease-in-out focus:border-black focus:outline-none focus:ring-0"
                     :value="modelValue"
                     @input="$emit('update:modelValue', $event.target.value)"
                     type="text"

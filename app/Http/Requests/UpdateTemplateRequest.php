@@ -16,10 +16,9 @@ class UpdateTemplateRequest extends FormRequest
 
     public function rules(): array
     {
-        $userId = Auth::user()->id;
         $projectId = $this->project->id;
         return [
-            'name' => ['required', Rule::unique('templates')->where(function ($query) use ($projectId) {
+            'name' => ['required', Rule::unique('templates')->ignore($this->template->id)->where(function ($query) use ($projectId) {
                 return $query->where('name', $this->request->get('name'))->where('project_id', $projectId);
             })],
             'description' => 'nullable',

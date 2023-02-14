@@ -16,7 +16,6 @@ class CreateTemplateRequest extends FormRequest
 
     public function rules(): array
     {
-        $userId = Auth::user()->id;
         $projectId = $this->project->id;
         return [
             'name' => ['required', Rule::unique('templates')->where(function ($query) use ($projectId) {
