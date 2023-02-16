@@ -4,20 +4,23 @@
     >
         <div class="flex gap-5 items-start">
             <div>
-                <p class="font-medium text-label-large">{{ variable.key }}</p>
+                <div class="flex gap-5 items-center">
+                    <p class="font-medium text-label-large">{{ variable.key }}</p>
+                    <div
+                        class="rounded-md py-1 px-3 text-label-small shadow-lg ring ring-1 ring-fuchsia-300"
+                    >
+                        <VariableScopeComponent
+                            :scope="
+                        scopes.find((scope) => scope.value === variable.scope)
+                    "
+                        ></VariableScopeComponent>
+                    </div>
+                </div>
                 <p class="text-gray-600 text-label-small leading-4 mt-1">
                     {{ variable.description }}...
                 </p>
             </div>
-            <div
-                class="rounded-md py-1 px-3 text-label-small shadow-lg ring ring-1 ring-fuchsia-300"
-            >
-                <VariableScopeComponent
-                    :scope="
-                        scopes.find((scope) => scope.value === variable.scope)
-                    "
-                ></VariableScopeComponent>
-            </div>
+
         </div>
         <div class="relative">
             <OptionsMenu
@@ -40,13 +43,13 @@
 </template>
 
 <script setup lang="ts">
-import { Variable } from "../../models/Variable";
+import {Variable} from "../../models/Variable";
 import OptionsMenu from "../common/OptionsMenu.vue";
-import { DropdownOption } from "../../models/Select";
-import { ref } from "@vue/reactivity";
-import { Project } from "../../models/Project";
+import {DropdownOption} from "../../models/Select";
+import {ref} from "@vue/reactivity";
+import {Project} from "../../models/Project";
 import VariableScopeComponent from "./scope/VariableScopeComponent.vue";
-import { scopes } from "../../config/props";
+import {scopes} from "../../config/props";
 import ConfirmationModal from "../common/ConfirmationModal.vue";
 
 const props = defineProps<{

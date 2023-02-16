@@ -1,5 +1,5 @@
 <template>
-    <section class="md:p-5">
+    <section class="p-5">
         <TextInput
             :error-message="form.errors.key"
             placeholder="Event title"
