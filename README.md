@@ -1,6 +1,6 @@
 See [Wiki](https://github.com/TimZolleis/mailservice/wiki) for more information
 
-
+Note: For the usage with NodeJS, we recommend using the [Driftmail Client](https://www.npmjs.com/package/driftmail). However, if you want to make your own HTTP requests or simply try out the service, you can send those as described here.
 
 
 ## Setting up the service
