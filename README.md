@@ -34,3 +34,103 @@ Templates can be written using markdown or/and html - you can insert headings, l
 ### Settings
 
 In the project settings you configure anything not related to the email itself, such as SMTP configuration, the API-Key. You can conduct critical operations there aswell, such as deleting or exporting your project.
+
+## Sending an email
+
+To send an email, you'll just have to send a POST request to the service endpoint, https://yourservicedomain.com/api/mail/send.
+
+In that request youll have to provide an `X-API-KEY` header with the API-Key from your project settings, aswell as a JSON body with **three objects**
+
+
+### The "mail" object
+In the mail object you can now only configure the template that is going to be used. For example: 
+```json
+{
+   "mail":{
+      "template":"InvitationTemplate"
+   }
+}
+```
+### The "variables" object
+The variables object will hold all variables that are **non-recipient-specific** (as configured in the project). Here you can provide simple key-value objects but deeply nested objects aswell (set your path in the project with dot annotation, such as "event.name" in this example)
+
+```json
+{
+   "variables":{
+      "event":{
+         "name":"My event",
+         "location":"My event location",
+         "date":"01/22/23"
+      }
+   }
+}
+```
+
+### The "recipients" array
+This is an array of objects (essentially those are all the people you'll send your email to) which have to have atleast the `mailAddress` property on them. You can also provide user specific variables, such as name, links etc. For example: 
+
+```json
+{
+   "recipients":[
+      {
+         "mailAddress":"mail@example.com",
+         "variables":{
+            "name":"John Doe",
+            "link":"myevent.com/invitation/johndoe"
+         }
+      },
+      {
+         "mailAddress":"mail2@example.com",
+         "variables":{
+            "name":"Jeanette Doe",
+            "link":"myevent.com/invitation/jeanettedoe"
+         }
+      }
+   ]
+}
+```
+
+### Example
+To put this all together, this is what an example body of the POST request might look like: 
+
+```json
+{
+   "mail":{
+      "template":"InvitationTemplate"
+   },
+   "variables":{
+      "event":{
+         "name":"My event",
+         "location":"My event location",
+         "date":"01/22/23"
+      }
+   },
+   "recipients":[
+      {
+         "mailAddress":"mail@example.com",
+         "variables":{
+            "name":"John Doe",
+            "link":"myevent.com/invitation/johndoe"
+         }
+      },
+      {
+         "mailAddress":"mail2@example.com",
+         "variables":{
+            "name":"Jeanette Doe",
+            "link":"myevent.com/invitation/jeanettedoe"
+         }
+      }
+   ]
+}
+```
+
+
+
+
+
+
+
+
+
+
+
