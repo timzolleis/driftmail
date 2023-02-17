@@ -7,6 +7,7 @@ use App\Http\Requests\EditVariableRequest;
 use App\Http\Requests\VariableRequest;
 use App\Models\Project;
 use App\Models\Variable;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -44,6 +45,13 @@ class VariableController extends BaseController
     {
         $variable->delete();
         return Redirect::back();
+    }
+
+    public function search(Project $project, Request $request)
+    {
+        $query = $request->input('query');
+        $variables = $project->variables()->where('key', 'like', "%$query%")->get();
+        return response()->json($variables);
     }
 
 

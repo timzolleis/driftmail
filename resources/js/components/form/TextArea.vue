@@ -1,41 +1,47 @@
 <template>
     <div class="flex flex-col gap-2 w-full">
-        <label class="font-inter text-label-medium text-gray-600" v-if="useLabel">{{ label }}</label>
+        <label
+            class="font-inter text-label-medium text-gray-600"
+            v-if="useLabel"
+            >{{ label }}</label
+        >
         <textarea
+            id="textarea"
             :placeholder="placeholder"
             ref="elementRef"
             class="block w-full rounded-md border border-gray-200 bg-white p-2 px-3 text-sm font-inter shadow-lg focus:border-black focus:outline-none focus:ring-0"
-            :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" type="text"/>
-        <p v-if="errorMessage" class="font-inter text-red-500 text-label-small">{{ errorMessage }}</p>
+            :value="modelValue"
+            @input="$emit('update:modelValue', $event.target.value)"
+            type="text"
+        />
+        <p v-if="errorMessage" class="font-inter text-red-500 text-label-small">
+            {{ errorMessage }}
+        </p>
     </div>
 </template>
 
 <script setup lang="ts">
-import {ref} from "@vue/reactivity";
-import {onBeforeUnmount, onMounted} from "@vue/runtime-core";
+import { ref } from "@vue/reactivity";
+import { onBeforeUnmount, onMounted } from "@vue/runtime-core";
 import autosize from "autosize";
 
-const elementRef = ref()
+const elementRef = ref();
 
 onMounted(() => {
-        autosize(elementRef.value)
-    }
-)
+    autosize(elementRef.value);
+});
 onBeforeUnmount(() => {
-    autosize.destroy(elementRef.value)
-})
+    autosize.destroy(elementRef.value);
+});
 
 const props = defineProps<{
     label?: string;
     modelValue: any;
     useLabel: boolean;
-    errorMessage?: string,
-    placeholder?: string
-}>()
-const emits = defineEmits(["update:modelValue"])
-
+    errorMessage?: string;
+    placeholder?: string;
+}>();
+const emits = defineEmits(["update:modelValue"]);
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
