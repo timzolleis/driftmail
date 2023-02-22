@@ -32,6 +32,9 @@ return new class extends Migration {
      */
     public function down()
     {
+        Schema::table('mail_queue', function (Blueprint $table){
+            $table->dropColumn('new_field'); // remove the new field from existing table
+        });
         Schema::dropIfExists('mail_queue');
     }
 };

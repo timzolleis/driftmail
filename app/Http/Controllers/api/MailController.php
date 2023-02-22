@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Exceptions\api\project\ProjectNotFoundException;
 use App\Jobs\ScheduledEmail;
 use App\Models\MailQueue;
 use App\Service\MailRequestParsingService;
@@ -14,6 +15,8 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class MailController extends BaseController
 {
@@ -30,7 +33,13 @@ class MailController extends BaseController
         $this->variableParsingService = $variableParsingService;
     }
 
-    public function send(Request $request)
+    /**
+     * @throws \Throwable
+     * @throws NotFoundExceptionInterface
+     * @throws ProjectNotFoundException
+     * @throws ContainerExceptionInterface
+     */
+    public function send(Request $request): Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
         $requestId = Str::uuid();
         $validated = $this->mailService->validateRequest($request);

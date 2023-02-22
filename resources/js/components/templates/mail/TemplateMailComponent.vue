@@ -158,7 +158,7 @@ function insertVariable(variableName: string) {
 }
 
 function parseMailBody() {
-    if (variableMatch.value) {
+    if (variableMatch.value !== null) {
         debounce(() => searchVariables(variableMatch.value[0]), 350);
     }
     if (openBracketMatch.value && !variableMatch.value) {

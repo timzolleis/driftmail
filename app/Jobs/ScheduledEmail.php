@@ -68,7 +68,7 @@ class ScheduledEmail implements ShouldQueue
         } catch (\Exception $exception) {
             Log::debug("Caught exception when sending an email");
             $message = $exception->getMessage();
-            $this->fail(new MailSendingFailedException("Sending the email failed because of $message"));
+            $this->fail(new MailSendingFailedException("Exception: $message"));
         }
 
         return $this->job->uuid();

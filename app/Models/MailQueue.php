@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
+use App\Models\mail\MailStatus;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
 class MailQueue extends Model
 {
     use HasUuids;
+
+
+
 
     protected $table = 'mail_queue';
     protected $keyType = 'string';
@@ -16,7 +20,10 @@ class MailQueue extends Model
         'job_id',
         'request_id',
         'mail_address',
-        'status'
+        'status',
+        'mail_subject',
+        'mail_body',
+        'failure_cause'
     ];
     public $timestamps = false;
     protected $casts = [

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Mail\ApiMail;
+use App\Models\mail\MailStatus;
 use App\Models\MailQueue;
 use Illuminate\Queue\Events\JobFailed;
 use Illuminate\Queue\Events\JobProcessed;
@@ -52,7 +53,7 @@ class AppServiceProvider extends ServiceProvider
             Log::debug($jobIdentifier);
             try {
                 MailQueue::query()->find($jobIdentifier)->update([
-                    'status' => 'sending'
+                    'status' => MailStatus::SENDING
                 ]);
             } catch (Exception $exception) {
                 Log::error($exception);
@@ -65,7 +66,7 @@ class AppServiceProvider extends ServiceProvider
             $jobIdentifier = $data->getJobIdentifier();
             if (!$event->job->hasFailed()) {
                 MailQueue::query()->find($jobIdentifier)->update([
-                    'status' => 'sent'
+                    'status' => MailStatus::SENT
                 ]);
             }
         });
@@ -74,8 +75,10 @@ class AppServiceProvider extends ServiceProvider
             $data = unserialize($payload->data->command);
             $jobIdentifier = $data->getJobIdentifier();
             $message = $event->exception->getMessage();
+            Log::debug("Failed because of $message");
             MailQueue::query()->find($jobIdentifier)->update([
-                'status' => "failed: $message"
+                'status' => MailStatus::FAILED,
+                'failure_cause' => $message,
             ]);
         });
     }
