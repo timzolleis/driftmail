@@ -32,7 +32,6 @@ class AuthenticationService
             'client_secret' => $provider->authClientSecret,
             'redirect_uri' => $provider->authRedirectUrl
         ]);
-        Log::debug($response);
         $response->onError(/**
          * @throws AuthenticationFailedException
          */ function (Response $response) {

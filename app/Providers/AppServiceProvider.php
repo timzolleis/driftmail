@@ -50,7 +50,6 @@ class AppServiceProvider extends ServiceProvider
             $payload = json_decode($event->job->getRawBody());
             $data = unserialize($payload->data->command);
             $jobIdentifier = $data->getJobIdentifier();
-            Log::debug($jobIdentifier);
             try {
                 MailQueue::query()->find($jobIdentifier)->update([
                     'status' => MailStatus::SENDING
@@ -75,7 +74,6 @@ class AppServiceProvider extends ServiceProvider
             $data = unserialize($payload->data->command);
             $jobIdentifier = $data->getJobIdentifier();
             $message = $event->exception->getMessage();
-            Log::debug("Failed because of $message");
             MailQueue::query()->find($jobIdentifier)->update([
                 'status' => MailStatus::FAILED,
                 'failure_cause' => $message,

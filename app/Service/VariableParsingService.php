@@ -16,16 +16,17 @@ class VariableParsingService
     {
         $mailObject = new MailObject($template->subject, $template->body);
 
-        if (ArrayHelper::getValueWithDotAnnotation($validatedRequest, 'variables') !== null) {
+        if ($validatedRequest['variables'] !== null) {
             $this->parseGlobalVariables($mailObject, $validatedRequest);
         }
         $recipientMailObjects = [];
-        foreach (ArrayHelper::getValueWithDotAnnotation($validatedRequest, 'recipients') as $recipient) {
-            $mailAddress = ArrayHelper::getValueWithDotAnnotation($recipient, 'mailAddress');
-            $mailObject = $this->parseLocalVariables($mailObject, $recipient);
+
+        foreach ($validatedRequest['recipients'] as $recipient) {
+            $mailAddress = $recipient['mailAddress'];
+            $userMailObject = $this->parseLocalVariables($mailObject, $recipient);
             $recipientMailObjects[] = [
                 'mailAddress' => $mailAddress,
-                'mailObject' => $mailObject
+                'mailObject' => $userMailObject
             ];
         }
         return $recipientMailObjects;
@@ -47,7 +48,7 @@ class VariableParsingService
     function parseLocalVariables(MailObject $mailObject, array $recipientOrMailRequest)
     {
         $userMailObject = new MailObject($mailObject->getSubject(), $mailObject->getBody());
-        if (ArrayHelper::getValueWithDotAnnotation($recipientOrMailRequest, 'variables') !== null) {
+        if ($recipientOrMailRequest['variables'] !== null) {
             $project = Project::query()->find(session()->get('project_id'));
             $allVariables = $this->getVariableKeyValueArray($project->variables()->where('scope', 'user:all')->get(), $recipientOrMailRequest);
             $subjectVariables = $this->getVariableKeyValueArray($project->variables()->where('scope', 'user:subject')->get(), $recipientOrMailRequest);
@@ -63,7 +64,7 @@ class VariableParsingService
     {
         $variableArray = [];
         foreach ($variables as $variable) {
-            $requestVariables = ArrayHelper::getValueWithDotAnnotation($recipientOrMailRequest, 'variables');
+            $requestVariables = $recipientOrMailRequest['variables'];
             $variableArray[$variable->key] = ArrayHelper::getValueWithDotAnnotation($requestVariables, $variable->value);
         }
         return $variableArray;
@@ -86,7 +87,6 @@ class VariableParsingService
 
     function parseBodyVariables(MailObject $mailObject, array $variablesArray)
     {
-        $text = $this->substituteText($mailObject->getBody(), $variablesArray);
         return $this->substituteText($mailObject->getBody(), $variablesArray);
     }
 
