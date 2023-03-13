@@ -28,7 +28,7 @@
         <BlackButton
             @click="emit('save', form)"
             class="w-full mt-5 py-3"
-            :button-text="intent === 'edit' ? 'Save variable' : 'Add variable'"
+            button-text="Save"
         ></BlackButton>
     </section>
 </template>

@@ -27,7 +27,7 @@
 import { useRelativeNavigation } from "../../composables/navigation";
 
 function navigateTo(path: string) {
-    return useRelativeNavigation("/project", path);
+    return useRelativeNavigation("/project/{id}", path);
 }
 </script>
 

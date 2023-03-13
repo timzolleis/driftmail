@@ -24,7 +24,7 @@
         </div>
         <div class="relative">
             <OptionsMenu
-                @edit="emit('edit', variable)"
+                @edit="router.get(useDynamicUrl('/project/{id}', `/variables/${variable.id}`), {}, {preserveState: true})"
                 @delete="showDeleteModal = true"
                 :options="options"
             >
@@ -32,7 +32,7 @@
         </div>
         <Teleport to="body">
             <ConfirmationModal
-                @confirm="emit('delete', variable)"
+                @confirm="router.delete(useDynamicUrl('/project/{id}', `/variables/${variable.id}`))"
                 @cancel="showDeleteModal = false"
                 @close="showDeleteModal = false"
                 :confirmation-text="`Are you sure you want to delete the variable ${variable.key}?`"
@@ -51,6 +51,8 @@ import {Project} from "../../models/Project";
 import VariableScopeComponent from "./scope/VariableScopeComponent.vue";
 import {scopes} from "../../config/props";
 import ConfirmationModal from "../common/ConfirmationModal.vue";
+import {router} from "@inertiajs/vue3";
+import {useDynamicUrl, useGetRelativeUrl} from "../../composables/navigation";
 
 const props = defineProps<{
     project: Project;
@@ -58,11 +60,6 @@ const props = defineProps<{
 }>();
 
 const showDeleteModal = ref(false);
-const emit = defineEmits<{
-    (e: "edit", variable: Variable): void;
-    (e: "delete", variable: Variable): void;
-}>();
-
 const options: DropdownOption[] = [
     {
         name: "Edit",

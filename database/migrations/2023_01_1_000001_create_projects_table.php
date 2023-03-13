@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -13,15 +12,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('templates', function (Blueprint $table) {
+        Schema::create('projects', function (Blueprint $table) {
             $table->uuid('id')->primary();
-        });
-
-        Schema::table('templates', function (Blueprint $table) {
-            $table->foreignUuid('project_id')->constrained('projects')->onDelete('cascade');
+            $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade');
             $table->string('name');
-            $table->string('subject');
-            $table->longText('text');
+            $table->string('description')->nullable();
+
         });
     }
 
@@ -32,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('templates');
+        Schema::dropIfExists('projects');
     }
 };

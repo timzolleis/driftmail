@@ -17,11 +17,12 @@ use Inertia\Inertia;
 class VariableController extends BaseController
 {
 
-    public function index(Project $project)
+    public function index(Project $project, Variable $variable = null): \Inertia\Response
     {
         return Inertia::render('Variables/Index', [
             'project' => $project,
-            'variables' => $project->variables()->get()
+            'variables' => $project->variables()->get(),
+            'variable' => $variable
         ]);
     }
 
