@@ -17,6 +17,7 @@ use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mailer\Transport\Dsn;
 use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransportFactory;
+use  Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -45,6 +46,8 @@ class AppServiceProvider extends ServiceProvider
             return new \Illuminate\Mail\Mailer('user.mailer', $this->app->get('view'), $transport, $this->app->get('events'));
         });
 
+        URL::forceRootUrl(getenv('APP_URL'));
+        URL::forceScheme("https");
         Schema::defaultStringLength(800);
         Queue::before(function (JobProcessing $event) {
             $payload = json_decode($event->job->getRawBody());
