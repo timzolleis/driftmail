@@ -39,7 +39,7 @@ class MailController extends BaseController
      * @throws ProjectNotFoundException
      * @throws ContainerExceptionInterface
      */
-    public function send(Request $request): Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
+    public function send(Request $request)
     {
         $requestId = Str::uuid();
         $validated = $this->mailService->validateRequest($request);
@@ -50,7 +50,7 @@ class MailController extends BaseController
             $mailObject = $recipientMailObjectInArray['mailObject'];
             $this->mailService->queueMail($mailObject, $mailAddress, $requestId);
         }
-        return \response([
+        return \response()->json([
             'request_id' => $requestId
         ], 200);
     }
@@ -59,7 +59,7 @@ class MailController extends BaseController
     public function getStatus(string $requestId)
     {
         $jobs = MailQueue::where('request_id', $requestId)->get();
-        return \response([
+        return \response()->json([
             'jobs' => $jobs
         ], 200);
 
