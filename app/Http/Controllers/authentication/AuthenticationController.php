@@ -7,7 +7,6 @@ use App\Service\GithubService;
 use App\Service\NetlifyService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class AuthenticationController
@@ -28,26 +27,19 @@ class AuthenticationController
         return Inertia::render('Login');
     }
 
-    public function authorize(Request $request)
+    public function authorize(Request $request, string $provider)
     {
-        $provider = $request->query('provider');
-        $service = null;
         if ($provider === 'github') {
-            $service = new GithubService($this->authenticationService);
+            return (new GithubService($this->authenticationService))->authorize();
         }
         if ($provider === 'netlify') {
-            $service = new NetlifyService($this->authenticationService);
+            return (new NetlifyService($this->authenticationService))->authorize();
         }
-        if ($service !== null) {
-            return $service->authorize();
-        }
-
-        return redirect('/login');
+        return to_route('login.view');
     }
 
-    public function callback(Request $request)
+    public function callback(Request $request, string $provider)
     {
-        $provider = session()->get('auth');
         $code = $request->query('code');
         session()->flush();
         $service = null;
@@ -64,8 +56,7 @@ class AuthenticationController
                 return redirect('/');
             }
         }
-
-        return redirect('/login');
+        return to_route('login.view');
     }
 
 

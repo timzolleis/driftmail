@@ -45,9 +45,10 @@ class AppServiceProvider extends ServiceProvider
                 $mailConfig->getHost(), $mailConfig->getUsername(), $mailConfig->getPassword(), $mailConfig->getPort()));
             return new \Illuminate\Mail\Mailer('user.mailer', $this->app->get('view'), $transport, $this->app->get('events'));
         });
-
-        URL::forceRootUrl(getenv('APP_URL'));
-        URL::forceScheme("https");
+        if (getenv('APP_ENV') === "production") {
+            URL::forceRootUrl(getenv('APP_URL'));
+            URL::forceScheme("https");
+        }
         Schema::defaultStringLength(800);
         Queue::before(function (JobProcessing $event) {
             $payload = json_decode($event->job->getRawBody());

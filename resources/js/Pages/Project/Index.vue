@@ -2,27 +2,25 @@
     <div class="flex py-3 justify-between border-b">
         <PageHeader :title="project.name" />
     </div>
-    <section class="py-5">
-        <TextInput
-            :error-message="form.errors.name"
-            placeholder="My project"
-            v-model="form.name"
-            :use-label="true"
-            label="Project name"
-        ></TextInput>
-        <TextInput
-            :error-message="form.errors.description"
-            placeholder="My fancy new project!"
-            v-model="form.description"
-            :use-label="true"
-            label="Project description"
-        ></TextInput>
-        <BlackButton
-            @click="post"
-            class="w-full mt-5 py-3"
-            button-text="Save"
-        ></BlackButton>
-    </section>
+          <section class="py-5 grid md:grid-cols-2 gap-x-2">
+              <TextInput
+                  :error-message="form.errors.name"
+                  placeholder="My project"
+                  v-model="form.name"
+                  :use-label="true"
+                  label="Project name"
+              ></TextInput>
+              <TextInput
+                  :error-message="form.errors.description"
+                  placeholder="My fancy new project!"
+                  v-model="form.description"
+                  :use-label="true"
+                  label="Project description"
+              ></TextInput>
+          </section>
+          <div class="flex items-center gap-2 justify-end">
+              <StyledButton :loading="form.processing" @click="post">{{form.processing ? "Saving" : "Save"}}</StyledButton>
+          </div>
 </template>
 
 <script setup lang="ts">
@@ -33,6 +31,7 @@ import { Project } from "../../models/Project";
 import ProjectLayout from "../../Shared/Layout/ProjectLayout.vue";
 import TextInput from "../../components/form/TextInput.vue";
 import {useGetRelativeUrl, useRelativeNavigation} from "../../composables/navigation";
+import StyledButton from "../../components/StyledButton.vue";
 
 defineOptions({ layout: ProjectLayout });
 
@@ -46,7 +45,7 @@ const form = useForm({
 });
 
 function post() {
-    form.put(useGetRelativeUrl('/project', '/'));
+    form.put(window.location.pathname);
 }
 </script>
 

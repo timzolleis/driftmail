@@ -4,70 +4,56 @@
             <Modal
                 :show="showModal"
                 @close="navigateBack"
-                :title="`${intent} Variable`"
+                :title="`${variable? 'Edit' : 'Add'} Variable`"
             >
-                <VariableFormComponent
-                    @save="(form) => handleSave(form)"
-                    :intent="intent"
-                    :variable="variable"
+                <VariableFormComponent v-model="form"
+                                       :intent="variable? 'Edit' : 'Add'"
+                                       :variable="variable"
                 ></VariableFormComponent>
+                <template v-slot:secondary-action>
+                    <StyledButton  @click="navigateBack"
+                                  variant="ghost">Cancel
+                    </StyledButton>
+                </template>
+                <template v-slot:primary-action>
+                    <StyledButton :loading="form.processing" @click="handleSave">Save</StyledButton>
+                </template>
             </Modal>
         </Teleport>
     </div>
 </template>
-
 <script setup lang="ts">
 import Modal from "../common/Modal.vue";
 import VariableFormComponent from "./VariableFormComponent.vue";
 import {Variable} from "../../models/Variable";
-import {computed, ref} from "@vue/reactivity";
-import {createVariable, saveVariable, VariableForm} from "../../composables/variable";
+import {computed} from "@vue/reactivity";
+import {createVariable, saveVariable, useVariableForm} from "../../composables/variable";
 import {router} from "@inertiajs/vue3";
-import {useDynamicUrl} from "../../composables/navigation";
+import {useNegativeNavigation} from "../../composables/navigation";
+import StyledButton from "../StyledButton.vue";
 
 const props = defineProps<{
-    variable: Variable | null,
+    variable: Variable | undefined,
+    add: boolean
 }>()
+const form = computed(() => {
+    return useVariableForm(props.variable)
+})
 
 const showModal = computed(() => {
-    return !!props.variable || checkModalSearchParams()
-})
-const intent = computed(() => {
-    if (props.variable) {
-        return "Edit"
-    }
-    return "Add"
+    return !!props.variable || props.add
 })
 
-function checkModalSearchParams() {
-    const searchParams = new URLSearchParams(window.location.search)
-    const isOpen = searchParams.get("modal")
-    return isOpen === "true"
-}
-
-function closeModalSearchParams() {
-    const searchParams = new URLSearchParams(window.location.search)
-    searchParams.delete("modal")
-    window.location.search = searchParams.toString();
-}
-
-
-function handleSave(form: VariableForm) {
+function handleSave() {
     if (props.variable) {
-        saveVariable(form, props.variable.id, () => navigateBack())
+        saveVariable(form.value, props.variable.id, () => navigateBack())
     } else {
-        createVariable(form, () => navigateBack())
+        createVariable(form.value, () => navigateBack())
     }
 }
-
 function navigateBack() {
-    if(checkModalSearchParams()){
-        closeModalSearchParams()
-    }
-
-    return router.get(useDynamicUrl('/project/{id}', '/variables'), {}, {preserveState: true})
+    router.get(useNegativeNavigation(1), {}, {preserveState: true})
 }
-
 
 </script>
 

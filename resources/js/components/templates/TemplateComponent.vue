@@ -11,7 +11,7 @@
             </p>
         </div>
         <OptionsMenu
-            @edit="emit('edit', template)"
+            @edit="router.get(`templates/${template.id}`)"
             @delete="showDeleteModal = true"
             :options="options"
         >
@@ -35,6 +35,7 @@ import OptionsMenu from "../common/OptionsMenu.vue";
 import { DropdownOption } from "../../models/Select";
 import { ref } from "@vue/reactivity";
 import ConfirmationModal from "../common/ConfirmationModal.vue";
+import {router} from "@inertiajs/vue3";
 
 const props = defineProps<{
     template: Template;

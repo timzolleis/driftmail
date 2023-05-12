@@ -1,5 +1,5 @@
 <template>
-    <span class="flex items-center gap-2">
+    <span class="flex items-center">
         <span>
             <GlobeIcon
                 class="stroke-violet-400 h-4"

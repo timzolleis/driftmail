@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full font-inter px-5 md:px-10">
+    <div class="w-full">
         <TabGroup>
             <TabList class="w-full flex rounded-xl py-3">
                 <Tab v-slot="{ selected }" class="w-full">
@@ -39,14 +39,14 @@
                         <TextInput
                             label="Template name"
                             :use-label="true"
-                            v-model="form.name"
-                            :error-message="form.errors.name"
+                            v-model="modelValue.name"
+                            :error-message="modelValue.errors.name"
                         ></TextInput>
                         <TextArea
                             label="Template description"
                             :use-label="true"
-                            v-model="form.description"
-                            :error-message="form.errors.description"
+                            v-model="modelValue.description"
+                            :error-message="modelValue.errors.description"
                         ></TextArea>
                     </div>
                 </TabPanel>
@@ -56,16 +56,10 @@
                         'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none',
                     ]"
                 >
-                    <TemplateMailComponent v-model="form">
+                    <TemplateMailComponent  v-bind="modelValue">
                         >
                     </TemplateMailComponent>
                 </TabPanel>
-                <div class="flex gap-2 items-center justify-end py-4">
-                    <BlackButton
-                        @click="emit('save', form)"
-                        button-text="Save"
-                    ></BlackButton>
-                </div>
             </TabPanels>
         </TabGroup>
     </div>
@@ -74,19 +68,21 @@
 
 <style scoped></style>
 <script setup lang="ts">
+//TODO: Rework Mail Component
 import TextArea from "../form/TextArea.vue";
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
+import {Tab, TabGroup, TabList, TabPanel, TabPanels} from "@headlessui/vue";
 import TextInput from "../form/TextInput.vue";
-import BlackButton from "../common/BlackButton.vue";
-import { FormPurpose, Template } from "../../models/Template";
+import {Template} from "../../models/Template";
 import TemplateMailComponent from "./mail/TemplateMailComponent.vue";
-import { watch } from "@vue/runtime-core";
-import { useTemplateForm } from "../../composables/template";
+import {TemplateForm} from "../../composables/template";
+import {watch} from "@vue/runtime-core";
 
 const props = defineProps<{
-    template?: Template;
+    modelValue: TemplateForm;
 }>();
 
-const form = useTemplateForm(props.template);
-const emit = defineEmits(["save"]);
+
+
+
+const emit = defineEmits(["update:modelValue"]);
 </script>

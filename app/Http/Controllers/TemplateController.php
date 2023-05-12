@@ -18,9 +18,9 @@ use Inertia\Inertia;
 class TemplateController extends BaseController
 {
 
-    public function index(Project $project)
+    public function index(Project $project, Template $template = null)
     {
-        return Inertia::render('Template/Index', ['templates' => $project->templates()->get()]);
+        return Inertia::render('Template/Index', ['templates' => $project->templates()->get(), 'template' => $template]);
     }
 
     public function store(CreateTemplateRequest $request, Project $project)

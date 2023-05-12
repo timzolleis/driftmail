@@ -24,6 +24,14 @@ export function useDynamicUrl(base: string, path: string) {
     return `/${joinedWindowUrl}/${trimSlashes(path)}`
 }
 
+export function useNegativeNavigation(delta: number) {
+    const url = trimSlashes(window.location.pathname)
+    const parts = url.split("/").slice(0, -delta)
+    return "/" +
+        parts.join('/').trim()
+}
+
+
 function findCurlyBracesIndex(str: string): number | undefined {
     const parts = str.split("/");
     let lastFoundIndex = undefined

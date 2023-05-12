@@ -1,15 +1,14 @@
 <template>
     <div class="flex flex-col gap-2 w-full">
-        <label
-            class="font-inter text-label-medium text-gray-600"
+        <Label
             v-if="useLabel"
-            >{{ label }}</label
+            >{{ label }}</Label
         >
         <textarea
             id="textarea"
             :placeholder="placeholder"
             ref="elementRef"
-            class="block w-full rounded-md border border-gray-200 bg-white p-2 px-3 text-sm font-inter shadow-lg focus:border-black focus:outline-none focus:ring-0"
+            class="flex h-20 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-md ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             :value="modelValue"
             @input="$emit('update:modelValue', $event.target.value)"
             type="text"
@@ -24,6 +23,7 @@
 import { ref } from "@vue/reactivity";
 import { onBeforeUnmount, onMounted } from "@vue/runtime-core";
 import autosize from "autosize";
+import Label from "../Label.vue";
 
 const elementRef = ref();
 

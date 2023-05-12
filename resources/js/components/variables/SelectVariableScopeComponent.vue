@@ -1,7 +1,7 @@
 <template>
     <section class="py-2">
-        <label class="font-inter text-label-medium text-gray-600"
-            >Variable scope</label
+        <Label
+            >Variable scope</Label
         >
         <Listbox
             :value="modelValue"
@@ -9,7 +9,7 @@
         >
             <div class="relative mt-1">
                 <ListboxButton
-                    class="block w-full rounded-md border border-gray-200 bg-white p-2 px-3 text-sm font-inter shadow-lg focus:border-black focus:outline-none focus:ring-0"
+                    class="block w-full rounded-md border border-gray-200 bg-white p-2 px-3 text-sm shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 >
                     <span class="flex items-center gap-2">
                         <span>
@@ -108,6 +108,7 @@ import GlobeIcon from "../../Shared/icons/GlobeIcon.vue";
 import UserIcon from "../../Shared/icons/UserIcon.vue";
 import CheckIcon from "../../Shared/icons/CheckIcon.vue";
 import ChevronUpDownIcon from "../../Shared/icons/ChevronUpDownIcon.vue";
+import Label from "../Label.vue";
 
 const props = defineProps<{
     modelValue: SelectOption;

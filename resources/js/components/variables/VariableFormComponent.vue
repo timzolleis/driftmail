@@ -1,54 +1,48 @@
 <template>
-    <section class="p-5">
-        <TextInput
-            :error-message="form.errors.key"
-            placeholder="Event title"
-            v-model="form.key"
-            :use-label="true"
-            label="Variable key"
-        ></TextInput>
-        <TextInput
-            :error-message="form.errors.value"
-            placeholder="event.title"
-            v-model="form.value"
-            :use-label="true"
-            label="Variable value"
-        ></TextInput>
-        <TextArea
-            :error-message="form.errors.description"
-            placeholder="This variable is for setting the event title in the subject of the invitation"
-            v-model="form.description"
-            :use-label="true"
-            label="Variable description"
-        ></TextArea>
-        <SelectVariableScopeComponent
-            v-model="form.scope"
-            :scopes="scopes"
-        ></SelectVariableScopeComponent>
-        <BlackButton
-            @click="emit('save', form)"
-            class="w-full mt-5 py-3"
-            button-text="Save"
-        ></BlackButton>
-    </section>
+       <div>
+           <div class="grid md:grid-cols-2 gap-x-2">
+               <TextInput
+                   :error-message="modelValue.errors.key"
+                   placeholder="Event title"
+                   v-model="modelValue.key"
+                   :use-label="true"
+                   label="Variable key"
+               ></TextInput>
+               <TextInput
+                   :error-message="modelValue.errors.value"
+                   placeholder="event.title"
+                   v-model="modelValue.value"
+                   :use-label="true"
+                   label="Variable value"
+               ></TextInput>
+           </div>
+           <TextArea
+               :error-message="modelValue.errors.description"
+               placeholder="This variable is for setting the event title in the subject of the invitation"
+               v-model="modelValue.description"
+               :use-label="true"
+               label="Variable description"
+           ></TextArea>
+           <SelectVariableScopeComponent
+               v-model="modelValue.scope"
+               :scopes="scopes"
+           ></SelectVariableScopeComponent>
+       </div>
 </template>
 
 <script setup lang="ts">
-import BlackButton from "../common/BlackButton.vue";
 import SelectVariableScopeComponent from "./SelectVariableScopeComponent.vue";
 import TextArea from "../form/TextArea.vue";
 import TextInput from "../form/TextInput.vue";
-import { Variable } from "../../models/Variable";
-import { useVariableForm } from "../../composables/variable";
-import { scopes } from "../../config/props";
+import {VariableForm} from "../../composables/variable";
+import {scopes} from "../../config/props";
 
 const props = defineProps<{
-    variable?: Variable;
+    modelValue: VariableForm,
     intent: string;
 }>();
 
-const form = useVariableForm(props.variable);
-const emit = defineEmits(["save"]);
+const emit = defineEmits(["save, update:modelValue"]);
 </script>
 
 <style scoped></style>

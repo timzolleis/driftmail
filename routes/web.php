@@ -37,7 +37,7 @@ Route::get('/logout', [\App\Http\Controllers\authentication\AuthenticationContro
 
 
 Route::prefix('oauth')->group(function () {
-    Route::get('/login', [\App\Http\Controllers\authentication\AuthenticationController::class, 'authorize']);
-    Route::get('/callback', [\App\Http\Controllers\authentication\AuthenticationController::class, 'callback']);
+    Route::get('/login/{provider}', [\App\Http\Controllers\authentication\AuthenticationController::class, 'authorize']);
+    Route::get('/callback/{provider}', [\App\Http\Controllers\authentication\AuthenticationController::class, 'callback']);
 });
 
