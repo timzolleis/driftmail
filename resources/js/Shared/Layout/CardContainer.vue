@@ -1,5 +1,5 @@
 <template>
-    <div class="peer block w-full rounded-md border border-gray-200 bg-white p-5 text-sm shadow-md hover:shadow-lg  transition ease-in-out focus:border-black focus:outline-none focus:ring-0">
+    <div class="peer block w-full rounded-md border border-gray-200 bg-white p-5 text-sm hover:shadow-lg  transition ease-in-out focus:border-black focus:outline-none focus:ring-0">
         <slot></slot>
     </div>
 </template>

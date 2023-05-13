@@ -2,7 +2,7 @@
 import {cva} from "class-variance-authority";
 
 const labelVariants = cva(
-    "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900"
+    "text-sm font-medium leading-6 peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900"
 )
 </script>
 

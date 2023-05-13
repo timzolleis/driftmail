@@ -1,22 +1,10 @@
 <template>
     <div>
-        <Teleport to="body">
-            <Modal
-                :title="intent === 'add' ? `Add Template` : `Edit Template`"
-                :show="show"
-                @close="router.get(useNegativeNavigation(1))"
-            >
-                <TemplateFormComponent
-                    :template="template"
-                    @save="(form) => handleClick(form)"
-                ></TemplateFormComponent>
-            </Modal>
-        </Teleport>
+
         <div class="flex py-3 justify-between border-b">
-            <PageHeader title="Templates"/>
+            <PageHeader>Templates</PageHeader>
             <StyledButton
                 type="button"
-                @click="openModal"
             >
                 Add
             </StyledButton>
@@ -34,19 +22,14 @@
 <script setup lang="ts">
 import ProjectLayout from "../../Shared/Layout/ProjectLayout.vue";
 import PageHeader from "../../Shared/Page/PageHeader.vue";
-import BlackButton from "../../components/common/BlackButton.vue";
 import {ref} from "@vue/reactivity";
 import TemplateComponent from "../../components/templates/TemplateComponent.vue";
 import {Template} from "../../models/Template";
-import LargeModal from "../../components/common/LargeModal.vue";
-import {useGetRelativeUrl, useNegativeNavigation, useRelativeNavigation} from "../../composables/navigation";
+import {useGetRelativeUrl} from "../../composables/navigation";
 import {Intent} from "../../models/Form";
-import {useModal} from "../../composables/modal";
-import TemplateFormComponent from "../../components/templates/TemplateFormComponent.vue";
-import {TemplateForm} from "../../composables/template";
+import {TemplateForm, useTemplateForm} from "../../composables/template";
 import {router} from "@inertiajs/vue3";
 import StyledButton from "../../components/StyledButton.vue";
-import Modal from "../../components/common/Modal.vue";
 
 defineOptions({layout: ProjectLayout});
 
@@ -58,7 +41,6 @@ const props = defineProps<{
     template?: Template
 }>();
 
-const show = ref(!!props.template)
 function deleteTemplate(template: Template) {
     return router.delete(
         useGetRelativeUrl("/project", `/template/${template.id}`),
@@ -80,6 +62,8 @@ function handleClick(form: TemplateForm) {
         onSuccess: () => resetPage(),
     });
 }
+const form = useTemplateForm(props.template)
+
 
 
 

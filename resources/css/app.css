@@ -88,7 +88,17 @@
     url("/public/assets/fonts/inter/Inter-Black.woff?v=3.19") format("woff");
 }
 html {
-    background-color: #fafafa;
+    -ms-overflow-style: none;
+    scrollbar-width: none;background-color: #fafafa;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+::-webkit-scrollbar {
+    display: none;
 }
 
 @layer base {

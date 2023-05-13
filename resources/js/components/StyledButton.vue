@@ -10,6 +10,7 @@ const buttonVariants = cva(
                 default: "bg-primary text-primary-foreground hover:bg-primary/90",
                 destructive:
                     "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+                colorful: "bg-indigo-600 text-white hover:bg-indigo-600/90",
                 outline:
                     "border border-input hover:bg-accent hover:text-accent-foreground",
                 secondary:
@@ -35,7 +36,7 @@ defineProps<{ variant?: ButtonProps["variant"]; size?: ButtonProps["size"], load
 </script>
 
 <template>
-    <button :disabled="loading" :class="buttonVariants({variant, size})">
+    <button type="button" :disabled="loading" :class="buttonVariants({variant, size})">
         <Loader2 v-if="loading" class="animate-spin" :size="18"></Loader2>
         <slot/>
     </button>

@@ -7,7 +7,8 @@ Route::post('/templates', [\App\Http\Controllers\TemplateController::class, 'sto
 Route::prefix('templates')->group(function () {
     Route::get('/', [\App\Http\Controllers\TemplateController::class, "index"]);
     Route::post('/new', [\App\Http\Controllers\TemplateController::class, 'store']);
-    Route::get('/{template?}', [\App\Http\Controllers\TemplateController::class, 'index']);
+    Route::get('/{template}/settings', [\App\Http\Controllers\TemplateController::class, 'editSettings']);
+    Route::get('/{template}/mail', [\App\Http\Controllers\TemplateController::class, 'editMailTemplate']);
     Route::put('/{template}', [\App\Http\Controllers\TemplateController::class, 'update']);
     Route::delete('/{template}', [\App\Http\Controllers\TemplateController::class, 'delete']);
 });

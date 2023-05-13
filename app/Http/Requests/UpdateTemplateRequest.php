@@ -18,12 +18,12 @@ class UpdateTemplateRequest extends FormRequest
     {
         $projectId = $this->project->id;
         return [
-            'name' => ['required', Rule::unique('templates')->ignore($this->template->id)->where(function ($query) use ($projectId) {
+            'name' => ['nullable', Rule::unique('templates')->ignore($this->template->id)->where(function ($query) use ($projectId) {
                 return $query->where('name', $this->request->get('name'))->where('project_id', $projectId);
             })],
             'description' => 'nullable',
-            'subject' => 'required',
-            'body' => 'required',
+            'subject' => 'nullable',
+            'body' => 'nullable',
         ];
     }
 

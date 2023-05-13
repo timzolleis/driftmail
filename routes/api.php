@@ -20,3 +20,7 @@ Route::prefix('mail')->group(function () {
     Route::get('/status/{id}', [\App\Http\Controllers\api\MailController::class, 'getStatus'])->middleware('auth.api');
 });
 
+Route::prefix('variables')->group(function () {
+    Route::get('/search/{project}', [\App\Http\Controllers\VariableController::class, "search"]);
+});
+

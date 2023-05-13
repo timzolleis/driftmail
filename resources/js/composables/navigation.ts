@@ -43,9 +43,21 @@ function findCurlyBracesIndex(str: string): number | undefined {
     return lastFoundIndex
 }
 
-
-function getLastSlash(string: string) {
-    return string.substring(0, string.lastIndexOf('/'))
+export function getParametersFromRoute(parameterString: string) {
+    const url = window.location.pathname
+    const elements = parameterString.split('/')
+    const parameters = elements.map((element, index) => {
+        if (element.includes("$")) {
+            const parameterName = element.split("$")[1]
+            const parameterValue = url.split("/")[index]
+            return {[parameterName]: parameterValue}
+        }
+    }).filter(element => element) as { [key: string]: string }[]
+    return parameters.reduce((previousValue, currentValue, currentIndex, array) => {
+        const key = Object.keys(currentValue)[0]
+        previousValue[key] = currentValue[key]
+        return previousValue;
+    }, {})
 }
 
 

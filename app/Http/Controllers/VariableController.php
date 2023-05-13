@@ -48,10 +48,9 @@ class VariableController extends BaseController
         return Redirect::back();
     }
 
-    public function search(Project $project, Request $request)
+    public function search(Project $project)
     {
-        $query = $request->input('query');
-        $variables = $project->variables()->where('key', 'like', "%$query%")->get();
+        $variables = $project->variables()->get();
         return response()->json($variables);
     }
 

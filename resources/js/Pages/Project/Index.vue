@@ -1,6 +1,6 @@
 <template>
     <div class="flex py-3 justify-between border-b">
-        <PageHeader :title="project.name" />
+        <PageHeader>{{project.name}}</PageHeader>
     </div>
           <section class="py-5 grid md:grid-cols-2 gap-x-2">
               <TextInput

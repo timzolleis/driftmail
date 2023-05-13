@@ -11,7 +11,7 @@
             </p>
         </div>
         <OptionsMenu
-            @edit="router.get(`templates/${template.id}`)"
+            @edit="router.get(`templates/${template.id}/settings`)"
             @delete="showDeleteModal = true"
             :options="options"
         >

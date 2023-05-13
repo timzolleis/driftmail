@@ -30,12 +30,19 @@ class TemplateController extends BaseController
         return Redirect::back();
     }
 
-    public function edit(Template $template): \Inertia\Response
+    public function editSettings(Project $project, Template $template): \Inertia\Response
     {
-        return Inertia::render('Template/Edit', [
+        return Inertia::render('Template/EditSettings', [
             'template' => $template
         ]);
     }
+    public function editMailTemplate(Project $project, Template $template): \Inertia\Response
+    {
+        return Inertia::render('Template/EditTemplate', [
+            'template' => $template
+        ]);
+    }
+
 
     public function update(UpdateTemplateRequest $request, Project $project, Template $template): \Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
     {
