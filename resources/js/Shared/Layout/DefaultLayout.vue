@@ -1,9 +1,13 @@
 <template>
+    <Head>
+        <title>driftmail</title>
+        <link rel="icon" type="image/svg+xml" href="/assets/img/mail-icon-white.svg"/>
+    </Head>
     <div class="h-screen">
         <nav class="flex justify-center w-full">
             <section class="w-11/12 lg:w-4/5 py-3">
-                <LogoBar />
-                <NavBar />
+                <LogoBar/>
+                <NavBar/>
             </section>
         </nav>
 
@@ -17,11 +21,12 @@
 
 <script>
 import LogoBar from "../Nav/LogoBar.vue";
+import {Head} from "@inertiajs/vue3"
 import NavBar from "../Nav/NavBar.vue";
 
 export default {
     name: "DefaultLayout",
-    components: { NavBar, LogoBar },
+    components: {NavBar, LogoBar, Head},
 };
 </script>
 

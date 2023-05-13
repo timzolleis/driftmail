@@ -3,17 +3,13 @@
 namespace App\Http\Controllers\api;
 
 use App\Exceptions\api\project\ProjectNotFoundException;
-use App\Jobs\ScheduledEmail;
 use App\Models\MailQueue;
 use App\Service\MailRequestParsingService;
 use App\Service\MailService;
 use App\Service\VariableParsingService;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -50,7 +46,7 @@ class MailController extends BaseController
             $mailObject = $recipientMailObjectInArray['mailObject'];
             $this->mailService->queueMail($mailObject, $mailAddress, $requestId);
         }
-        return \response()->json([
+        return response()->json([
             'request_id' => $requestId
         ], 200);
     }
@@ -59,7 +55,7 @@ class MailController extends BaseController
     public function getStatus(string $requestId)
     {
         $jobs = MailQueue::where('request_id', $requestId)->get();
-        return \response()->json([
+        return response()->json([
             'jobs' => $jobs
         ], 200);
 
