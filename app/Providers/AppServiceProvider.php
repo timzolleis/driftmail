@@ -47,7 +47,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         URL::forceRootUrl(getenv('APP_URL'));
-        URL::forceScheme("https");
+        URL::forceScheme("http");
         Schema::defaultStringLength(800);
         Queue::before(function (JobProcessing $event) {
             $payload = json_decode($event->job->getRawBody());

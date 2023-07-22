@@ -1,34 +1,39 @@
 <template>
-    <div class="w-full flex justify-center py-20 items-center">
+    <div class="flex h-screen items-center justify-center">
         <div
-            class="flex flex-col gap-2 w-full md:w-2/3 xl:w-1/3 rounded-xl p-20 ring ring-1 ring-gray-800/10 shadow shadow-lg"
+            class="mx-auto w-full max-w-[450px] text-center space-y-5"
         >
-            <button
-                @click="router.get('/oauth/login?provider=netlify')"
-                type="submit"
-                class="flex w-full justify-center gap-2 p-3 shadow rounded-lg shadow-lg ring ring-1 ring-gray-800/10"
-            >
-                <img src="/assets/img/netlify-logo.svg" class="h-6" alt="" />
-                <span class="font-inter font-semibold">Login with Netlify</span>
-            </button>
-            <button
-                @click="router.get('/oauth/login?provider=github')"
-                type="submit"
-                class="flex w-full justify-center gap-2 p-3 shadow rounded-lg shadow-lg ring ring-1 bg-black ring-gray-800/10"
-            >
-                <img src="/assets/img/github-logo.svg" class="h-6" alt="" />
-                <span class="font-inter font-semibold text-white"
-                    >Login with Github</span
+            <div>
+                <h1 class="text-xl font-semibold">Welcome back</h1>
+                <p class="text-muted-foreground text-sm">Select a provider below to get started.</p>
+            </div>
+            <div class="space-y-2">
+                <Link
+                    href="/oauth/login?provider=netlify"
+                    type="submit"
+                    class="flex bg-secondary border rounded-md w-full p-3 justify-center items-center gap-2 hover:bg-secondary/80"
                 >
-            </button>
+                    <img src="/assets/img/netlify-logo.svg" class="h-5" alt=""/>
+                    <span class="font-medium text-sm">Netlify</span>
+                </Link>
+                <Link
+                    href="/oauth/login?provider=github"
+                    type="submit"
+                    class="flex bg-primary hover:bg-primary/80 rounded-md w-full p-3 justify-center items-center gap-2"
+                >
+                    <img src="/assets/img/github-logo.svg" class="h-5" alt=""/>
+                    <span class="text-sm font-medium text-white"
+                    >Github</span
+                    >
+                </Link>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import DefaultLayout from "../Shared/Layout/DefaultLayout.vue";
-import NetlifyLoginComponent from "../components/login/NetlifyLoginComponent.vue";
-import { router } from "@inertiajs/vue3";
+import {Link} from '@inertiajs/vue3'
+
 </script>
 
 <style scoped></style>

@@ -3,37 +3,37 @@
         <div
             @click="emit('close')"
             v-if="show"
-            class="backdrop-blur bg-black bg-opacity-10 p-3 fixed md:px-10 left-0 top-0 right-0 bottom-0 flex flex-col items-center justify-center transition-opacity duration-300 ease-in-out"
+            class="bg-black bg-opacity-10 p-3 fixed md:px-10 left-0 top-0 right-0 bottom-0 flex flex-col items-center justify-center transition-opacity duration-300 ease-in-out"
         >
             <div
-                class="modal-container rounded-xl bg-white w-full w-full md:w-3/4 lg:w-1/2 z-100 transition-all duration-300 ease-in-out"
+                class="modal-container rounded-xl bg-white w-full max-w-xl z-100 transition-all duration-300 ease-in-out relative"
                 @click.stop=""
             >
-                <div class="flex flex-col py-5">
-                    <div
-                        class="flex flex-col gap-2 items-center font-bold font-inter text-headline-small border-b border-gray-600/20 pb-2"
-                    >
-                        <img
-                            class="h-10"
-                            src="/assets/img/mail-icon.svg"
-                            alt=""
-                        />
-                        <p class="font-inter text-title-small font-semibold">
-                            {{ title }}
-                        </p>
-                    </div>
-                    <div class="bg-gray-50">
-                        <slot></slot>
-                    </div>
+               <div class="absolute top-0 right-0 p-2">
+                   <X @click="emit('close')" class="text-gray-600 stroke-1 hover:cursor-pointer"></X>
+               </div>
+                <div class="flex flex-col p-5">
+                    <h2 class="font-semibold text-xl"><slot name="title"></slot></h2>
+                       <div class="mt-4">
+                           <slot/>
+                       </div>
+                     <div class="flex justify-end items-center gap-2">
+                         <Button @click="emit('close')" variant="secondary">Cancel</Button>
+                         <slot name="cta"></slot>
+                     </div>
+
                 </div>
+
             </div>
         </div>
     </Transition>
 </template>
 
 <script setup lang="ts">
+import {X} from "lucide-vue-next";
+import Button from "../ui/Button.vue";
+
 const props = defineProps<{
-    title: string;
     show: boolean;
 }>();
 

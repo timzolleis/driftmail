@@ -1,41 +1,30 @@
 <template>
-    <CardContainer>
-        <div class="flex items-center justify-between">
+        <div class="flex justify-between p-3 border rounded-md bg-white shadow">
             <section class="space-y-1">
-                <p class="font-medium text-title-small">
+                <p class="font-medium">
                     {{ project.name }}
                 </p>
-                <p class="text-gray-600">{{ project.description }}</p>
+                <p class="text-muted-foreground text-xs max-w-[250px]">{{ project.description }}</p>
             </section>
-            <DefaultButton
-                @click="router.get(`/project/${project.id}`)"
-                button-text="View"
-            ></DefaultButton>
+          <div class="flex items-center">
+              <Button>
+                  <Link :href="`project/${project?.id}`">View</Link>
+              </Button>
+          </div>
+
+
         </div>
-    </CardContainer>
 </template>
 
-<script lang="ts">
-import CardContainer from "../../Shared/Layout/CardContainer.vue";
-
-export default {
-    name: "ProjectsComponent",
-    components: { CardContainer },
-};
-</script>
-
 <script setup lang="ts">
-import { Project } from "../../models/Project";
-import DefaultButton from "../common/BlackButton.vue";
-import Modal from "../common/Modal.vue";
-import AddProjectComponent from "./AddProjectComponent.vue";
-import { ref } from "@vue/reactivity";
-import { router } from "@inertiajs/vue3";
-import PageHeader from "../../Shared/Page/PageHeader.vue";
-
+import {ref} from "@vue/reactivity";
+import {Link} from "@inertiajs/vue3"
+import Button from "../ui/Button.vue";
+import {Project} from "../../models/Project";
 const showModal = ref(false);
 
 const props = defineProps<{ project?: Project }>();
 </script>
+
 
 <style scoped></style>

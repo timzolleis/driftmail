@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
 import BlackButton from "../common/BlackButton.vue";
-import SelectVariableScopeComponent from "./SelectVariableScopeComponent.vue";
+import SelectVariableScopeComponent from "./SelectScope.vue";
 import TextArea from "../form/TextArea.vue";
 import TextInput from "../form/TextInput.vue";
 import { Variable } from "../../models/Variable";

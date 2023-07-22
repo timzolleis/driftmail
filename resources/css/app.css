@@ -2,6 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 222.2 47.4% 11.2%;
+
+        --muted: 210 40% 96.1%;
+        --muted-foreground: 215.4 16.3% 46.9%;
+
+        --popover: 0 0% 100%;
+        --popover-foreground: 222.2 47.4% 11.2%;
+
+        --card: 0 0% 100%;
+        --card-foreground: 222.2 47.4% 11.2%;
+
+        --border: 214.3 31.8% 91.4%;
+        --input: 214.3 31.8% 91.4%;
+
+        --primary: 0 0% 9%;
+        --primary-foreground: 210 40% 98%;
+
+        --secondary: 210 40% 96.1%;
+        --secondary-foreground: 222.2 47.4% 11.2%;
+
+        --accent: 210 40% 96.1%;
+        --accent-foreground: 222.2 47.4% 11.2%;
+
+        --destructive: 0 100% 50%;
+        --destructive-foreground: 210 40% 98%;
+
+        --ring: 215 20.2% 65.1%;
+
+        --radius: 0.5rem;
+
+        --brand-50: 197 100% 96%;
+        --brand-100: 200 100% 92%;
+        --brand-200: 198 100% 86%;
+        --brand-300: 196 100% 76%;
+        --brand-400: 198 100% 65%;
+        --brand-500: 203 100% 58%;
+        --brand-600: 208 100% 53%;
+        --brand-700: 211 93% 45%;
+        --brand-800: 213 86% 40%;
+        --brand-900: 211 79% 33%;
+        --brand-950: 213 70% 21%;
+
+
+    }
+
+
+}
+
+
 @font-face {
     font-family: 'Inter';
     font-style:  normal;
@@ -88,5 +140,11 @@
     url("/public/assets/fonts/inter/Inter-Black.woff?v=3.19") format("woff");
 }
 html {
-    background-color: #fafafa;
+    @apply font-inter
+}
+
+.scrollbar-hide {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  
 }

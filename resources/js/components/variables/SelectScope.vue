@@ -1,32 +1,17 @@
 <template>
-    <section class="py-2">
-        <label class="font-inter text-label-medium text-gray-600"
-            >Variable scope</label
-        >
         <Listbox
+            class="scrollbar-hide"
             :value="modelValue"
             @update:model-value="(value) => emit('update:modelValue', value)"
         >
             <div class="relative mt-1">
                 <ListboxButton
-                    class="block w-full rounded-md border border-gray-200 bg-white p-2 px-3 text-sm font-inter shadow-lg focus:border-black focus:outline-none focus:ring-0"
+                    class="flex h-9 w-full items-center justify-between rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                    <span class="flex items-center gap-2">
-                        <span>
-                            <GlobeIcon
-                                class="stroke-violet-400"
-                                v-if="modelValue.id.includes('global')"
-                            ></GlobeIcon>
-                            <UserIcon
-                                class="stroke-fuchsia-400"
-                                v-if="modelValue.id.includes('user')"
-                            >
-                            </UserIcon>
-                        </span>
-                        <span class="block truncate">{{
+
+                        <p class="relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">{{
                             modelValue.name
-                        }}</span>
-                    </span>
+                        }}</p>
                     <span
                         class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
                     >
@@ -59,19 +44,8 @@
                                     'relative cursor-default select-none py-2 px-4 divide-y',
                                 ]"
                             >
-                                <span class="flex items-center gap-2">
-                                    <span>
-                                        <GlobeIcon
-                                            class="stroke-violet-400"
-                                            v-if="scope.id.includes('global')"
-                                        ></GlobeIcon>
-                                        <UserIcon
-                                            class="stroke-fuchsia-400"
-                                            v-if="scope.id.includes('user')"
-                                        >
-                                        </UserIcon>
-                                    </span>
-                                    <span
+                                <div class="flex items-center gap-2">
+                                    <p class="relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
                                         :class="[
                                             selected
                                                 ? 'font-medium'
@@ -79,20 +53,19 @@
                                             'block truncate',
                                         ]"
                                     >
-                                        {{ scope.name }}</span
+                                        {{ scope.name }}</p
                                     >
                                     <CheckIcon
-                                        class="stroke-green-500 h-4"
+                                        class="h-4 w-4"
                                         v-if="modelValue.name === scope.name"
                                     ></CheckIcon>
-                                </span>
+                                </div>
                             </li>
                         </ListboxOption>
                     </ListboxOptions>
                 </transition>
             </div>
         </Listbox>
-    </section>
 </template>
 
 <script setup lang="ts">
